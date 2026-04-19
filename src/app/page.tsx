@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { HeroSection } from '@/components/home/HeroSection'
 import { GlanceSection }     from '@/components/home/GlanceSection'
-import { HowItWorksSection } from '@/components/home/HIWSection'
+import HowItWorksSection  from '@/components/home/HIWSection'
+import CategoriesSection from '@/components/home/CategoriesSection'
 
 export const metadata: Metadata = {
   title: 'Checkamo — Verify Anything, Anywhere',
@@ -18,10 +19,10 @@ export default function HomePage() {
       <HeroSection />
             <GlanceSection />
       <HowItWorksSection />
+        <CategoriesSection />
 
       {/*
          Upcoming sections (add one by one) 
-        <CategoriesSection />
         <VerifierSpotlightSection />
         <TestimonialsSection />
         <FaqSection />

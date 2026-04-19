@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export type LogoVariant = 'full' | 'icon'
-export type LogoType = 'checkamo' | 'verifier' | 'user'
+export type LogoType = 'checkamo' | 'checkamo1' | 'verifier' | 'user'
 
 interface LogoProps {
   variant?: LogoVariant

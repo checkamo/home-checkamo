@@ -61,7 +61,7 @@ export function Navbar() {
         <div className="xl:container container-xl  mx-auto px-6 h-full flex items-center justify-between gap-6">
 
           {/*  Logo  */}
-          <Logo variant='full' type='checkamo'/>
+          <Logo variant='full' type='checkamo1'/>
           {/*  Desktop navigation  */}
           <nav
             aria-label="Main navigation"

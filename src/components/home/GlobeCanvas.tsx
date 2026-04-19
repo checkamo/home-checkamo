@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
 // three-globe is loaded dynamically inside useEffect (browser-only)
-// Install: npm install three-globe
 
 // Arc data — Nigeria hub cities to global destinations
 const ARC_DATA = [
@@ -46,21 +45,21 @@ export function GlobeCanvas() {
 
     // Dynamically import three-globe (browser-only)
     import('three-globe').then(({ default: ThreeGlobe }) => {
-      // ── Renderer ──────────────────────────────────────────────────────────
+      //  Renderer 
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
       renderer.setSize(el.clientWidth, el.clientHeight)
       renderer.setClearColor(0x000000, 0)
       el.appendChild(renderer.domElement)
 
-      // ── Scene & Camera ─────────────────────────────────────────────────────
+      //  Scene & Camera 
       scene  = new THREE.Scene()
       camera = new THREE.PerspectiveCamera(45, el.clientWidth / el.clientHeight, 0.1, 1000)
       // Position camera so globe is centred in the right half
       // Globe radius is 100 units in three-globe
       camera.position.set(0, 0, 280)
 
-      // ── Lighting ───────────────────────────────────────────────────────────
+      //  Lighting 
       const ambient = new THREE.AmbientLight(0xffffff, 1.2)
       scene.add(ambient)
 
@@ -73,7 +72,7 @@ export function GlobeCanvas() {
       fillLight.position.set(-200, -50, -100)
       scene.add(fillLight)
 
-      // ── Build globe ────────────────────────────────────────────────────────
+      //  Build globe 
       globe = new ThreeGlobe()
         // Real Earth textures from public NASA/naturalearthdata tiles
         .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
@@ -110,7 +109,7 @@ export function GlobeCanvas() {
       // Slight tilt
       globe.rotation.x = 0.12
 
-      // ── Auto-rotation + mouse drag ─────────────────────────────────────────
+      //  Auto-rotation + mouse drag 
       let isDragging = false
       let prevX      = 0
       let prevY      = 0
@@ -161,7 +160,7 @@ export function GlobeCanvas() {
       window.addEventListener('touchmove',  onTouchMove,  { passive: true })
       window.addEventListener('touchend',   onTouchEnd)
 
-      // ── Resize ─────────────────────────────────────────────────────────────
+      //  Resize 
       const onResize = () => {
         camera.aspect = el.clientWidth / el.clientHeight
         camera.updateProjectionMatrix()
@@ -169,7 +168,7 @@ export function GlobeCanvas() {
       }
       window.addEventListener('resize', onResize)
 
-      // ── Animation loop ─────────────────────────────────────────────────────
+      //  Animation loop 
       const animate = () => {
         frameId = requestAnimationFrame(animate)
 

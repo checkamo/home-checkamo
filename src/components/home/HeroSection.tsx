@@ -52,9 +52,9 @@ export function HeroSection() {
         We make it wider than 50% so the globe feels massive.
       */}
       <div
-        className="absolute top-0 bottom-0 right-0"
+        className="absolute top-0 bottom-0 right-0 z-10"
         style={{
-          width: '62%',
+          width: '70%',
           // Push globe container slightly right so the left half of globe is hidden
           // This creates the "half globe" cinematic effect
         }}
@@ -82,10 +82,10 @@ export function HeroSection() {
       />
 
       {/*  Text content — left aligned  */}
-      <div className="relative z-20 min-h-screen flex items-center">
+      <div className="relative min-h-screen flex items-center">
         <div className="container mx-auto px-6">
           <div
-            className="flex flex-col items-start text-left"
+            className="flex flex-col items-start text-left z-20 relative"
             style={{ maxWidth: '720px' }}
           >
 

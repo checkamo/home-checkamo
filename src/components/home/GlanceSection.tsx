@@ -94,24 +94,9 @@ export function GlanceSection() {
       {/*  Full-width cinematic image panel  */}
       <div
         ref={imageRef}
-        className="reveal mx-4 sm:mx-6 lg:mx-12 rounded-2xl overflow-hidden relative"
+        className="reveal rounded-2xl overflow-hidden relative container mx-auto lg:container-xl mx-auto"
         style={{ aspectRatio: '16 / 6.5', minHeight: '300px' }}
       >
-        {/*
-           HOW TO ADD THE REAL IMAGE 
-          1. Download a wide professional photo (min 2400×1050px, 16:6.5 ratio)
-             Suggestions:
-               - Unsplash: search "Lagos aerial night", "Nigeria city skyline"
-               - Pexels: "African city aerial", "Nigeria business district"
-             Place it at: /public/images/glance-hero.jpg
-
-          2. Remove the gradient placeholder <div> below.
-
-          3. Uncomment the <Image> block.
-
-          The Image component is already imported from 'next/image' at the top.
-          
-        */}
       
 
         {/* REAL IMAGE — uncomment when you have /public/images/glance-hero.jpg */}
@@ -239,7 +224,7 @@ export function GlanceSection() {
           {MARQUEE_FULL.map((item, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-3 px-5"
+              className="inline-flex items-center gap-3 px-5 text-[9px] sm:text-[11px]"
               style={{
                 fontFamily: "'Montserrat', sans-serif",
                 fontSize: '0.8125rem',
