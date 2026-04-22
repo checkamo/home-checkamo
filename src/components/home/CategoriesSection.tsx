@@ -7,7 +7,9 @@ import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
 import { BRAND } from '@/lib/constants'
 
+// ─────────────────────────────────────────────
 // TYPES
+// ─────────────────────────────────────────────
 
 export interface Category {
   slug: string
@@ -18,10 +20,28 @@ export interface Category {
   turnaround: string
   icon: string
   gradient: string
+  /**
+   * Place category hero images in /public/images/categories/<slug>.jpg
+   * Recommended resolution: 800×600 minimum, 3:2 ratio.
+   * Unsplash queries per category:
+   *   property      → "Nigeria real estate property building"
+   *   products      → "electronics products Nigeria market"
+   *   vehicles      → "Nigeria car vehicle road"
+   *   documents     → "certificate document official Nigeria"
+   *   identity      → "Nigeria professional ID portrait"
+   *   online-stores → "Nigeria online shopping package delivery"
+   *   services      → "Nigerian artisan contractor work"
+   *   luxury        → "luxury watch jewellery Nigeria"
+   */
   imagePath?: string
 }
 
+// ─────────────────────────────────────────────
 // DATA
+// imagePath references /public/images/categories/<slug>.jpg
+// Remove the imagePath key entirely for any category that has
+// no photo yet — the gradient will be used as fallback.
+// ─────────────────────────────────────────────
 
 export const CATEGORY_DATA: Category[] = [
   {
@@ -33,6 +53,7 @@ export const CATEGORY_DATA: Category[] = [
     turnaround: '24–72 hrs',
     icon: 'property',
     gradient: 'linear-gradient(145deg, #0c1f3d 0%, #0f2d56 60%, #132d50 100%)',
+    imagePath: '/images/categories/property.jpg',
   },
   {
     slug: 'products',
@@ -43,6 +64,7 @@ export const CATEGORY_DATA: Category[] = [
     turnaround: '12–48 hrs',
     icon: 'product',
     gradient: 'linear-gradient(145deg, #0a1930 0%, #0d2444 60%, #0f2540 100%)',
+    imagePath: '/images/categories/product.jpg',
   },
   {
     slug: 'vehicles',
@@ -53,6 +75,7 @@ export const CATEGORY_DATA: Category[] = [
     turnaround: '24–48 hrs',
     icon: 'vehicle',
     gradient: 'linear-gradient(145deg, #0e2038 0%, #122e50 60%, #152e4a 100%)',
+    imagePath: '/images/categories/vehicles.jpg',
   },
   {
     slug: 'documents',
@@ -63,6 +86,7 @@ export const CATEGORY_DATA: Category[] = [
     turnaround: '24–72 hrs',
     icon: 'document',
     gradient: 'linear-gradient(145deg, #0b1c38 0%, #0f2a50 60%, #112a4a 100%)',
+    imagePath: '/images/categories/document.jpg',
   },
   {
     slug: 'identity',
@@ -73,6 +97,7 @@ export const CATEGORY_DATA: Category[] = [
     turnaround: '48–96 hrs',
     icon: 'identity',
     gradient: 'linear-gradient(145deg, #0d1e40 0%, #112c58 60%, #142c52 100%)',
+    imagePath: '/images/categories/identity.jpg',
   },
   {
     slug: 'online-stores',
@@ -83,6 +108,7 @@ export const CATEGORY_DATA: Category[] = [
     turnaround: '12–48 hrs',
     icon: 'store',
     gradient: 'linear-gradient(145deg, #091832 0%, #0d2248 60%, #0f2244 100%)',
+    imagePath: '/images/categories/online-stores.jpg',
   },
   {
     slug: 'services',
@@ -93,6 +119,7 @@ export const CATEGORY_DATA: Category[] = [
     turnaround: '24–72 hrs',
     icon: 'service',
     gradient: 'linear-gradient(145deg, #0f213c 0%, #142f54 60%, #162e4e 100%)',
+    imagePath: '/images/categories/services.jpg',
   },
   {
     slug: 'luxury',
@@ -103,10 +130,13 @@ export const CATEGORY_DATA: Category[] = [
     turnaround: '48–96 hrs',
     icon: 'luxury',
     gradient: 'linear-gradient(145deg, #0a1a36 0%, #0e264e 60%, #102648 100%)',
+    imagePath: '/images/categories/luxury.jpg',
   },
 ]
 
+// ─────────────────────────────────────────────
 // ICON REGISTRY
+// ─────────────────────────────────────────────
 
 function Icon({ name, size = 20 }: { name: string; size?: number }) {
   const stroke = '#3b82f6'
@@ -166,11 +196,14 @@ function Icon({ name, size = 20 }: { name: string; size?: number }) {
       </svg>
     ),
   }
-
   return map[name] ?? map['document']
 }
 
+// ─────────────────────────────────────────────
 // CATEGORY CARD
+// Always shows the image (or gradient fallback).
+// Description is always visible — no hover-only reveal.
+// ─────────────────────────────────────────────
 
 interface CardProps {
   cat: Category
@@ -214,20 +247,39 @@ function CategoryCard({ cat, index, size = 'normal', animationDelay = 0 }: CardP
             : '0 4px 24px rgba(0,0,0,0.25)',
         }}
       >
-        {/* Background */}
+        {/* ── Background: image OR gradient ── */}
         <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
           {cat.imagePath ? (
-            <Image
-              src={cat.imagePath}
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 33vw, 50vw"
-              style={{
-                objectFit: 'cover',
-                transform: hovered ? 'scale(1.06)' : 'scale(1)',
-                transition: 'transform 700ms cubic-bezier(0.16, 1, 0.3, 1)',
-              }}
-            />
+            <>
+              <Image
+                src={cat.imagePath}
+                alt={cat.label}
+                fill
+                sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+                style={{
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  transform: hovered ? 'scale(1.06)' : 'scale(1)',
+                  transition: 'transform 700ms cubic-bezier(0.16, 1, 0.3, 1)',
+                  zIndex: 3,
+
+                }}
+              />
+              {/* Colour-tinted overlay so all cards read on-brand */}
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: `${cat.gradient.replace('linear-gradient', 'linear-gradient').split(')')[0]})`.replace(
+                    /\d+%\)/g, (m) => m
+                  ),
+                  // Simpler: fixed dark navy tint at 45% so photo shows through
+                  // but brand colour palette still feels consistent
+                  // background: 'rgba(7, 18, 40, 0.45)',
+                  zIndex: 1,
+                }}
+              />
+            </>
           ) : (
             <div
               style={{
@@ -239,27 +291,31 @@ function CategoryCard({ cat, index, size = 'normal', animationDelay = 0 }: CardP
               }}
             />
           )}
+
+          {/* Bottom-to-top scrim — always present */}
           <div
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 55%, rgba(0,0,0,0.08) 100%)',
-              zIndex: 1,
+              background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.05) 100%)',
+              zIndex: 2,
             }}
           />
+
+          {/* Hover blue glow */}
           <div
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(135deg, rgba(29,78,216,0.12) 0%, transparent 60%)',
+              background: 'linear-gradient(135deg, rgba(29,78,216,0.14) 0%, transparent 60%)',
               opacity: hovered ? 1 : 0,
               transition: 'opacity 400ms ease',
-              zIndex: 1,
+              zIndex: 2,
             }}
           />
         </div>
 
-        {/* Ghost number watermark */}
+        {/* Ghost number */}
         <div
           aria-hidden="true"
           style={{
@@ -272,11 +328,11 @@ function CategoryCard({ cat, index, size = 'normal', animationDelay = 0 }: CardP
             fontSize: size === 'tall' ? 'clamp(6rem, 10vw, 10rem)' : 'clamp(5rem, 7vw, 7.5rem)',
             lineHeight: 1,
             letterSpacing: '-0.06em',
-            color: 'rgba(255,255,255,0.032)',
+            color: 'rgba(255,255,255,0.05)',
             transition: 'transform 500ms cubic-bezier(0.16, 1, 0.3, 1)',
             userSelect: 'none',
             pointerEvents: 'none',
-            zIndex: 2,
+            zIndex: 3,
           }}
         >
           {String(index + 1).padStart(2, '0')}
@@ -295,9 +351,9 @@ function CategoryCard({ cat, index, size = 'normal', animationDelay = 0 }: CardP
           }}
         />
 
-        {/* Content */}
+        {/* ── Content ── */}
         <div style={{ position: 'relative', zIndex: 5, padding: '20px 22px 22px' }}>
-          {/* Icon + price row */}
+          {/* Icon + price */}
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14 }}>
             <div
               style={{
@@ -310,15 +366,16 @@ function CategoryCard({ cat, index, size = 'normal', animationDelay = 0 }: CardP
                 alignItems: 'center',
                 justifyContent: 'center',
                 transition: 'background 300ms, border-color 300ms',
+                flexShrink: 0,
               }}
             >
               <Icon name={cat.icon} size={20} />
             </div>
             <div
               style={{
-                background: 'rgba(0,0,0,0.5)',
+                background: 'rgba(0,0,0,0.55)',
                 backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.09)',
                 borderRadius: 8,
                 padding: '4px 10px',
               }}
@@ -327,7 +384,7 @@ function CategoryCard({ cat, index, size = 'normal', animationDelay = 0 }: CardP
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: 11,
-                  color: 'rgba(255,255,255,0.55)',
+                  color: 'rgba(255,255,255,0.58)',
                   letterSpacing: '0.04em',
                 }}
               >
@@ -350,21 +407,19 @@ function CategoryCard({ cat, index, size = 'normal', animationDelay = 0 }: CardP
             {cat.label}
           </h3>
 
-          {/* Description */}
-          {(size === 'tall' || hovered) && (
-            <p
-              style={{
-                fontFamily: "'Montserrat', sans-serif",
-                fontSize: 12.5,
-                lineHeight: 1.65,
-                color: 'rgba(255,255,255,0.52)',
-                fontWeight: 400,
-                marginBottom: 14,
-              }}
-            >
-              {cat.description}
-            </p>
-          )}
+          {/* Description — always visible */}
+          <p
+            style={{
+              fontFamily: "'Montserrat', sans-serif",
+              fontSize: 12.5,
+              lineHeight: 1.65,
+              color: 'rgba(255,255,255,0.52)',
+              fontWeight: 400,
+              marginBottom: 14,
+            }}
+          >
+            {cat.description}
+          </p>
 
           {/* Footer */}
           <div
@@ -414,9 +469,9 @@ function CategoryCard({ cat, index, size = 'normal', animationDelay = 0 }: CardP
   )
 }
 
+// ─────────────────────────────────────────────
 // BENTO GRID
-// Alternating: [tall left, 2 stacked right] then [2 stacked left, tall right]
-// Works at any category count — no hardcoded columns
+// ─────────────────────────────────────────────
 
 function BentoGrid({ categories }: { categories: Category[] }) {
   const groups: Array<{ tall: Category; a: Category; b: Category }> = []
@@ -427,9 +482,7 @@ function BentoGrid({ categories }: { categories: Category[] }) {
     groups.push({ tall: categories[gi], a: categories[gi + 1], b: categories[gi + 2] })
     gi += 3
   }
-  while (gi < categories.length) {
-    remainder.push(categories[gi++])
-  }
+  while (gi < categories.length) remainder.push(categories[gi++])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -442,19 +495,14 @@ function BentoGrid({ categories }: { categories: Category[] }) {
             <CategoryCard cat={g.b} index={i * 3 + 2} size="normal" animationDelay={i * 0.06 + 0.16} />
           </div>
         )
-
         return (
-          <div
-            key={i}
-            style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, alignItems: 'stretch' }}
-          >
+          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, alignItems: 'stretch' }}>
             <div style={{ minHeight: 460 }}>{tallLeft ? tallCard : stackCards}</div>
             <div style={{ minHeight: 460 }}>{tallLeft ? stackCards : tallCard}</div>
           </div>
         )
       })}
 
-      {/* Remainder — equal-width cards */}
       {remainder.length > 0 && (
         <div
           style={{
@@ -464,13 +512,7 @@ function BentoGrid({ categories }: { categories: Category[] }) {
           }}
         >
           {remainder.map((cat, si) => (
-            <CategoryCard
-              key={cat.slug}
-              cat={cat}
-              index={groups.length * 3 + si}
-              size="normal"
-              animationDelay={si * 0.08}
-            />
+            <CategoryCard key={cat.slug} cat={cat} index={groups.length * 3 + si} size="normal" animationDelay={si * 0.08} />
           ))}
         </div>
       )}
@@ -478,7 +520,23 @@ function BentoGrid({ categories }: { categories: Category[] }) {
   )
 }
 
-// DRAG RAIL — homepage
+// ─────────────────────────────────────────────
+// DRAG RAIL — homepage variant
+//
+// FIX: The rail is a full-bleed element that breaks out of the
+// container width. To align the first card with the container's
+// left edge on all screen sizes, we use CSS to compute the left
+// padding dynamically.
+//
+// On screens wider than the container max-width (1280px by default
+// in Tailwind), the container is centred with (100vw - 1280px) / 2
+// of space on each side, PLUS the container's own px-6 (24px).
+// On narrower screens the container flush-sits at 24px from each edge.
+//
+// The outer wrapper uses negative margin to break out of the
+// container, so the rail is always full-viewport-width.
+// ─────────────────────────────────────────────
+
 function DragRail({ categories }: { categories: Category[] }) {
   const railRef = useRef<HTMLDivElement>(null)
   const isDown = useRef(false)
@@ -501,8 +559,7 @@ function DragRail({ categories }: { categories: Category[] }) {
       if (!isDown.current) return
       e.preventDefault()
       dragged.current = true
-      const x = e.pageX - rail.offsetLeft
-      rail.scrollLeft = scrollLeft.current - (x - startX.current) * 1.4
+      rail.scrollLeft = scrollLeft.current - (e.pageX - rail.offsetLeft - startX.current) * 1.4
     }
     const onUp = () => { isDown.current = false; rail.style.cursor = 'grab' }
     const onClick = (e: MouseEvent) => { if (dragged.current) e.preventDefault() }
@@ -511,7 +568,6 @@ function DragRail({ categories }: { categories: Category[] }) {
     window.addEventListener('mousemove', onMove)
     window.addEventListener('mouseup', onUp)
     rail.addEventListener('click', onClick, true)
-
     return () => {
       rail.removeEventListener('mousedown', onDown)
       window.removeEventListener('mousemove', onMove)
@@ -521,6 +577,19 @@ function DragRail({ categories }: { categories: Category[] }) {
   }, [])
 
   return (
+    /*
+     * This wrapper breaks out of the parent container to span full viewport
+     * width, then uses paddingLeft to align the first card with the
+     * container's left edge on all viewport sizes.
+     *
+     * Container max-width in Tailwind default config = 1280px (xl).
+     * If your project uses a different max-width, update the 1280px value.
+     *
+     * padding-left formula:
+     *   max(24px,  (100vw - 1280px) / 2 + 24px)
+     *   ↑ 24px is the fallback when the viewport is narrower than container
+     *   ↑ the second term kicks in on large screens to match container offset
+     */
     <div
       ref={railRef}
       role="region"
@@ -529,17 +598,18 @@ function DragRail({ categories }: { categories: Category[] }) {
       onKeyDown={(e) => {
         const r = railRef.current
         if (!r) return
-        if (e.key === 'ArrowRight') r.scrollBy({ left: 276, behavior: 'smooth' })
-        if (e.key === 'ArrowLeft') r.scrollBy({ left: -276, behavior: 'smooth' })
+        if (e.key === 'ArrowRight') r.scrollBy({ left: 278, behavior: 'smooth' })
+        if (e.key === 'ArrowLeft') r.scrollBy({ left: -278, behavior: 'smooth' })
       }}
       style={{
         display: 'flex',
         gap: 14,
         overflowX: 'auto',
         overflowY: 'hidden',
+        // Align first card with container left edge; pad right symmetrically
         paddingLeft: 'max(24px, calc((100vw - 1280px) / 2 + 24px))',
         paddingRight: 'max(24px, calc((100vw - 1280px) / 2 + 24px))',
-        paddingBottom: 8,
+        paddingBottom: 16,
         cursor: 'grab',
         userSelect: 'none',
         WebkitOverflowScrolling: 'touch',
@@ -548,7 +618,11 @@ function DragRail({ categories }: { categories: Category[] }) {
         msOverflowStyle: 'none',
       }}
     >
-      <style>{`[aria-label*="Verification categories"]::-webkit-scrollbar{display:none}`}</style>
+      {/* Hide webkit scrollbar */}
+      <style>{`
+        [aria-label*="Verification categories"]::-webkit-scrollbar { display: none; }
+      `}</style>
+
       {categories.map((cat, i) => (
         <div key={cat.slug} style={{ flexShrink: 0, width: 264, scrollSnapAlign: 'start' }}>
           <motion.div
@@ -556,6 +630,7 @@ function DragRail({ categories }: { categories: Category[] }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '0px -25% 0px 0px' }}
             transition={{ duration: 0.55, delay: Math.min(i, 5) * 0.065 }}
+            style={{ height: '100%' }}
           >
             <CategoryCard cat={cat} index={i} size="tall" />
           </motion.div>
@@ -565,10 +640,13 @@ function DragRail({ categories }: { categories: Category[] }) {
   )
 }
 
+// ─────────────────────────────────────────────
 // MAIN EXPORT
+// ─────────────────────────────────────────────
 
 interface CategoriesSectionProps {
   categories?: Category[]
+  /** true = bento grid on /categories page; false = drag rail on homepage */
   gridMode?: boolean
 }
 
@@ -585,17 +663,18 @@ export default function CategoriesSection({
         overflow: 'hidden',
       }}
     >
-      {/* Header */}
+      {/* ── Header — always inside container ── */}
       <div className="container mx-auto px-6" style={{ marginBottom: gridMode ? 48 : 40 }}>
         <div
           style={{
             display: 'flex',
-            alignItems: 'flex-center',
+            alignItems: 'flex-end',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: 20,
           }}
         >
+          {/* Left */}
           <div>
             <motion.div
               className="eyebrow"
@@ -635,14 +714,14 @@ export default function CategoriesSection({
             </motion.h2>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 14 }}
-          >
-            {!gridMode && (
+          {/* Right — Browse all link (rail mode only) */}
+          {!gridMode && (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+            >
               <Link
                 href="/categories"
                 style={{
@@ -661,17 +740,17 @@ export default function CategoriesSection({
                   <path d="M2 6.5h9M7.5 2.5l4 4-4 4" stroke="#1d4ed8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </Link>
-            )}
-          </motion.div>
+            </motion.div>
+          )}
         </div>
       </div>
 
-      {/* Content */}
+      {/* ── Content ── */}
       {gridMode ? (
         <div className="container mx-auto px-6">
           <BentoGrid categories={categories} />
 
-          {/* Bottom CTA strip */}
+          {/* CTA strip */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -722,7 +801,6 @@ export default function CategoriesSection({
                 borderRadius: 10,
                 textDecoration: 'none',
                 flexShrink: 0,
-                transition: 'box-shadow 200ms',
               }}
             >
               Start a request
@@ -733,7 +811,10 @@ export default function CategoriesSection({
           </motion.div>
         </div>
       ) : (
+        // Rail is full-width; padding inside aligns with container
+        <div className="container-xl mx-auto px-6">          
         <DragRail categories={categories} />
+        </div>
       )}
     </section>
   )

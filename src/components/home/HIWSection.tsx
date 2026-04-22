@@ -1,17 +1,18 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   motion,
-  useScroll,
-  useMotionValueEvent,
   useInView,
   AnimatePresence,
 } from "framer-motion";
 import { BRAND } from "@/lib/constants";
 
+// ─────────────────────────────────────────────
 // TYPES
+// ─────────────────────────────────────────────
 
 type Track = "users" | "verifiers";
 
@@ -21,10 +22,28 @@ interface Step {
   detail: string;
   tag: string;
   bullets: string[];
+  /**
+   * Place matching assets in /public/images/hiw/
+   * Users:     u01.jpg – u05.jpg
+   *   u01 → person on phone, Nigerian setting, warm light   (Unsplash: "Nigeria professional phone")
+   *   u02 → mobile payment / fintech, secure feel           (Pexels: "African fintech payment")
+   *   u03 → person being matched / assigned, notification   (Unsplash: "Nigeria mobile app notification")
+   *   u04 → verifier in field, inspecting property          (Pexels: "physical inspection Nigeria")
+   *   u05 → person satisfied, approval screen on phone      (Unsplash: "Nigeria person happy phone")
+   * Verifiers: v01.jpg – v05.jpg
+   *   v01 → professional portrait, ID document in hand      (Unsplash: "Nigerian professional ID")
+   *   v02 → map / city overview, Lagos or Abuja aerial      (Unsplash: "Lagos aerial city")
+   *   v03 → person reviewing job list on phone              (Pexels: "African professional smartphone")
+   *   v04 → field inspection, daylight, property or goods   (Pexels: "inspection Nigeria")
+   *   v05 → phone showing payment notification / wallet     (Unsplash: "Nigeria mobile payment received")
+   */
+  imagePath: string;
   cta?: { label: string; href: string; isUser: boolean };
 }
 
+// ─────────────────────────────────────────────
 // DATA
+// ─────────────────────────────────────────────
 
 const STEPS: Record<Track, Step[]> = {
   users: [
@@ -40,6 +59,7 @@ const STEPS: Record<Track, Step[]> = {
         "Add photos or reference files",
         "Specify exactly what concerns you",
       ],
+      imagePath: "/images/hiw/u01.jpg",
     },
     {
       number: "02",
@@ -53,6 +73,7 @@ const STEPS: Record<Track, Step[]> = {
         "Released only on your approval",
         "Full refund guarantee if disputed",
       ],
+      imagePath: "/images/hiw/u02.jpg",
     },
     {
       number: "03",
@@ -66,6 +87,7 @@ const STEPS: Record<Track, Step[]> = {
         "Average match time: under 10 minutes",
         "You can see their rating before they start",
       ],
+      imagePath: "/images/hiw/u03.jpg",
     },
     {
       number: "04",
@@ -79,6 +101,7 @@ const STEPS: Record<Track, Step[]> = {
         "Structured written report",
         "Delivered straight to your dashboard",
       ],
+      imagePath: "/images/hiw/u04.jpg",
     },
     {
       number: "05",
@@ -92,6 +115,7 @@ const STEPS: Record<Track, Step[]> = {
         "Dispute mediation available 24 / 7",
         "Full refund if unresolved in your favour",
       ],
+      imagePath: "/images/hiw/u05.jpg",
       cta: { label: "Get started", href: BRAND.appUrl, isUser: true },
     },
   ],
@@ -108,6 +132,7 @@ const STEPS: Record<Track, Step[]> = {
         "Approved within 48 hours",
         "One-time setup — no renewal fees",
       ],
+      imagePath: "/images/hiw/v01.jpg",
     },
     {
       number: "02",
@@ -121,6 +146,7 @@ const STEPS: Record<Track, Step[]> = {
         "Jobs come to you — no bidding",
         "No minimum hours or commitment",
       ],
+      imagePath: "/images/hiw/v02.jpg",
     },
     {
       number: "03",
@@ -134,6 +160,7 @@ const STEPS: Record<Track, Step[]> = {
         "Completely flexible hours",
         "No penalty for declining jobs",
       ],
+      imagePath: "/images/hiw/v03.jpg",
     },
     {
       number: "04",
@@ -147,6 +174,7 @@ const STEPS: Record<Track, Step[]> = {
         "Structured photo submission flow",
         "Offline mode for low connectivity",
       ],
+      imagePath: "/images/hiw/v04.jpg",
     },
     {
       number: "05",
@@ -160,6 +188,7 @@ const STEPS: Record<Track, Step[]> = {
         "Transparent platform fee shown upfront",
         "Weekly earnings summary report",
       ],
+      imagePath: "/images/hiw/v05.jpg",
       cta: {
         label: "Apply to verify",
         href: BRAND.verifierAppUrl,
@@ -169,11 +198,274 @@ const STEPS: Record<Track, Step[]> = {
   ],
 };
 
-// STEP CARD — individual right-column block
+// ─────────────────────────────────────────────
+// STICKY LEFT PANEL
+// Pure display — receives activeStep as prop.
+// No scroll logic, no hooks that depend on DOM refs.
+// ─────────────────────────────────────────────
 
-function StepCard({ step, index }: { step: Step; index: number }) {
+function StickyLeft({
+  steps,
+  track,
+  activeStep,
+}: {
+  steps: Step[];
+  track: Track;
+  activeStep: number;
+}) {
+  const accentColor = track === "users" ? "#04bfbf" : "#3b82f6";
+
+  return (
+    <div
+      style={{
+        position: "sticky",
+        top: "18vh",
+        alignSelf: "start",
+        width: "100%",
+      }}
+    >
+      {/* ── Image frame ── */}
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          aspectRatio: "4 / 3",
+          borderRadius: 16,
+          overflow: "hidden",
+          marginBottom: 24,
+          background: "#0a1628",
+          border: "1px solid rgba(255,255,255,0.07)",
+          flexShrink: 0,
+        }}
+      >
+        {/* All images stacked — only the active one is opaque */}
+        {steps.map((step, i) => (
+          <motion.div
+            key={`${track}-img-${i}`}
+            initial={false}
+            animate={{ opacity: i === activeStep ? 1 : 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            style={{ position: "absolute", inset: 0 }}
+          >
+            <Image
+              src={step.imagePath}
+              alt={step.tag}
+              fill
+              sizes="(min-width: 1280px) 28vw, (min-width: 768px) 35vw, 80vw"
+              style={{ objectFit: "cover", objectPosition: "center" }}
+              priority={i === 0}
+            />
+            {/* Bottom scrim */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%)",
+              }}
+            />
+          </motion.div>
+        ))}
+
+        {/* Step tag — bottom left */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 13,
+            left: 13,
+            zIndex: 10,
+          }}
+        >
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={`${track}-itag-${activeStep}`}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.28 }}
+              style={{
+                display: "inline-block",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 10,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "#fff",
+                background: "rgba(0,0,0,0.52)",
+                backdropFilter: "blur(6px)",
+                padding: "4px 10px",
+                borderRadius: 6,
+                border: `1px solid ${accentColor}55`,
+              }}
+            >
+              {steps[activeStep]?.tag}
+            </motion.span>
+          </AnimatePresence>
+        </div>
+
+        {/* Counter — top right */}
+        <div
+          style={{
+            position: "absolute",
+            top: 13,
+            right: 13,
+            zIndex: 10,
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 11,
+            color: "rgba(255,255,255,0.42)",
+            background: "rgba(0,0,0,0.42)",
+            backdropFilter: "blur(6px)",
+            padding: "3px 8px",
+            borderRadius: 5,
+            letterSpacing: "0.08em",
+          }}
+        >
+          {steps[activeStep]?.number} / 0{steps.length}
+        </div>
+      </div>
+
+      {/* ── Ghost step number ── */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`${track}-gnum-${activeStep}`}
+          initial={{ opacity: 0, y: 14, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          exit={{ opacity: 0, y: -14, filter: "blur(8px)" }}
+          transition={{ duration: 0.35, ease: "circOut" }}
+          aria-hidden="true"
+          style={{
+            fontFamily: "'Montserrat', sans-serif",
+            fontSize: "clamp(4rem, 6vw, 6.5rem)",
+            fontWeight: 900,
+            lineHeight: 1,
+            letterSpacing: "-0.06em",
+            background:
+              "linear-gradient(135deg, rgba(29,78,216,0.30) 0%, rgba(59,130,246,0.10) 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            marginBottom: 18,
+            userSelect: "none",
+          }}
+        >
+          {steps[activeStep]?.number}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* ── Dot nav ── */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+        {steps.map((step, i) => (
+          <div
+            key={`${track}-dot-${i}`}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              paddingTop: 5,
+              paddingBottom: i < steps.length - 1 ? 0 : 5,
+            }}
+          >
+            {/* Dot + connector */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                flexShrink: 0,
+              }}
+            >
+              <motion.div
+                animate={{
+                  width: i === activeStep ? 10 : 7,
+                  height: i === activeStep ? 10 : 7,
+                  background:
+                    i === activeStep
+                      ? accentColor
+                      : "rgba(255,255,255,0.14)",
+                  boxShadow:
+                    i === activeStep
+                      ? `0 0 0 4px ${accentColor}28`
+                      : "0 0 0 0px transparent",
+                }}
+                transition={{ duration: 0.22 }}
+                style={{ borderRadius: "50%", flexShrink: 0 }}
+              />
+              {i < steps.length - 1 && (
+                <div
+                  style={{
+                    width: 1,
+                    height: 24,
+                    marginTop: 3,
+                    background:
+                      i < activeStep
+                        ? accentColor
+                        : i === activeStep
+                        ? `linear-gradient(to bottom, ${accentColor}, rgba(255,255,255,0.07))`
+                        : "rgba(255,255,255,0.07)",
+                    transition: "background 300ms ease",
+                  }}
+                />
+              )}
+            </div>
+
+            {/* Label */}
+            <motion.span
+              animate={{
+                color:
+                  i === activeStep ? "#fff" : "rgba(255,255,255,0.24)",
+                fontWeight: i === activeStep ? 600 : 400,
+              }}
+              transition={{ duration: 0.22 }}
+              style={{
+                fontFamily: "'Montserrat', sans-serif",
+                fontSize: 12,
+                letterSpacing: i === activeStep ? 0 : "0.02em",
+              }}
+            >
+              {step.tag}
+            </motion.span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────
+// STEP CARD — right column item
+// Uses useInView to report when it becomes visible.
+// The side-effect pattern (mutating prevInView ref during render)
+// is replaced here with a proper effect via the onChange callback
+// from a custom sentinel approach — simpler: just call onBecomeActive
+// inside the render body guard is fine for this one-way signal.
+// ─────────────────────────────────────────────
+
+function StepCard({
+  step,
+  index,
+  onBecomeActive,
+}: {
+  step: Step;
+  index: number;
+  onBecomeActive: (i: number) => void;
+}) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: false, margin: "-30% 0px -30% 0px" });
+  // When more than 40% of the viewport above AND below is outside this card,
+  // it means the card occupies the centre band — mark it active.
+  const inView = useInView(ref, {
+    once: false,
+    margin: "-40% 0px -40% 0px",
+  });
+
+  // Safe one-way signal to parent: only fires when transitioning in→view.
+  // Using a ref instead of state avoids stale-closure issues.
+  const wasInView = useRef(false);
+  if (inView && !wasInView.current) {
+    wasInView.current = true;
+    onBecomeActive(index);
+  }
+  if (!inView) {
+    wasInView.current = false;
+  }
 
   return (
     <div
@@ -196,7 +488,7 @@ function StepCard({ step, index }: { step: Step; index: number }) {
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+          transition={{ duration: 0.5, delay: 0.1 }}
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -253,7 +545,7 @@ function StepCard({ step, index }: { step: Step; index: number }) {
         <motion.div
           initial={{ scaleX: 0 }}
           animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
-          transition={{ duration: 0.6, delay: 0.28, ease: "easeOut" }}
+          transition={{ duration: 0.6, delay: 0.28 }}
           style={{
             height: 1,
             background:
@@ -281,7 +573,7 @@ function StepCard({ step, index }: { step: Step; index: number }) {
         </motion.p>
 
         {/* Bullets */}
-        <motion.ul
+        <ul
           style={{
             listStyle: "none",
             padding: 0,
@@ -291,15 +583,14 @@ function StepCard({ step, index }: { step: Step; index: number }) {
             gap: 10,
           }}
         >
-          {step.bullets.map((b, i) => (
+          {step.bullets.map((b, bi) => (
             <motion.li
-              key={i}
+              key={bi}
               initial={{ opacity: 0, x: 16 }}
               animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 16 }}
               transition={{
                 duration: 0.45,
-                delay: 0.38 + i * 0.07,
-                ease: "easeOut",
+                delay: 0.38 + bi * 0.07,
               }}
               style={{ display: "flex", alignItems: "center", gap: 12 }}
             >
@@ -338,7 +629,7 @@ function StepCard({ step, index }: { step: Step; index: number }) {
               </span>
             </motion.li>
           ))}
-        </motion.ul>
+        </ul>
 
         {/* CTA */}
         {step.cta && (
@@ -371,204 +662,65 @@ function StepCard({ step, index }: { step: Step; index: number }) {
   );
 }
 
-// STICKY LEFT PANEL — number + progress line
-function StickyLeft({ steps, track, activeStep }: { steps: Step[]; track: Track; activeStep: number }) {
-  return (
-    <div
-      // Adding a key here forces the sticky container to refresh on track change
-      key={track} 
-      style={{
-        position: 'sticky',
-        top: '20vh', 
-        alignSelf: 'start',
-        width: '100%',
-        zIndex: 20
-      }}
-    >
-      <AnimatePresence mode="wait">
-        <motion.div
-          // Crucial: track in the key ensures 01 vs 02 swap works across modes
-          key={`${track}-${activeStep}`} 
-          initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, y: -20, filter: 'blur(8px)' }}
-          transition={{ duration: 0.4, ease: "circOut" }}
-          style={{
-            fontFamily: "'Montserrat', sans-serif",
-            fontSize: 'clamp(6rem, 10vw, 9rem)',
-            fontWeight: 900,
-            lineHeight: 1,
-            background: 'linear-gradient(135deg, rgba(29,78,216,0.22) 0%, rgba(59,130,246,0.08) 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            marginBottom: 8,
-          }}
-        >
-          {steps[activeStep]?.number}
-        </motion.div>
-      </AnimatePresence>
+// ─────────────────────────────────────────────
+// SCROLLABLE STEPS WRAPPER
+// key=track forces full remount when track switches,
+// which resets all IntersectionObserver instances and
+// re-fires onBecomeActive(0) for the first card immediately.
+// ─────────────────────────────────────────────
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {steps.map((step, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <motion.div
-              animate={{
-                scale: i === activeStep ? 1.2 : 1,
-                background: i === activeStep 
-                  ? (track === 'users' ? '#04bfbf' : '#3b82f6') 
-                  : 'rgba(255,255,255,0.1)',
-              }}
-              style={{ width: 8, height: 8, borderRadius: '50%' }}
-            />
-            <span style={{ 
-              fontSize: 11, 
-              fontFamily: 'JetBrains Mono',
-              textTransform: 'uppercase',
-              color: i === activeStep ? '#fff' : 'rgba(255,255,255,0.2)' 
-            }}>
-              {step.tag}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-// STEP DOT — individual progress dot
-function StepDot({
-  step,
-  index,
-  total,
-  isActive,
-  scrollYProgress,
-  onActivate,
+function ScrollableSteps({
+  steps,
+  track,
+  onActiveStepChange,
 }: {
-  step: Step;
-  index: number;
-  total: number;
-  isActive: boolean;
-  scrollYProgress: any;
-  onActivate: () => void;
+  steps: Step[];
+  track: Track;
+  onActiveStepChange: (i: number) => void;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { margin: "-35% 0px -35% 0px" });
-
-  // Activate parent when this step is in view
-  const prevInView = useRef(false);
-  if (inView !== prevInView.current) {
-    prevInView.current = inView;
-    if (inView) onActivate();
-  }
-
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 12,
-        paddingTop: 6,
-        paddingBottom: index < total - 1 ? 0 : 6,
-      }}
-    >
-      {/* Dot + connecting line */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          flexShrink: 0,
-        }}
-      >
-        <motion.div
-          animate={{
-            width: isActive ? 10 : 7,
-            height: isActive ? 10 : 7,
-            background: isActive ? "#1d4ed8" : "rgba(255,255,255,0.18)",
-            boxShadow: isActive
-              ? "0 0 0 4px rgba(29,78,216,0.18)"
-              : "0 0 0 0px transparent",
-          }}
-          transition={{ duration: 0.3 }}
-          style={{ borderRadius: "50%" }}
+    <div>
+      {steps.map((step, i) => (
+        <StepCard
+          key={`${track}-card-${i}`}
+          step={step}
+          index={i}
+          onBecomeActive={onActiveStepChange}
         />
-        {index < total - 1 && (
-          <div
-            style={{
-              width: 1,
-              height: 28,
-              background: isActive
-                ? "linear-gradient(to bottom, #1d4ed8, rgba(255,255,255,0.10))"
-                : "rgba(255,255,255,0.10)",
-              transition: "background 400ms ease",
-              marginTop: 3,
-            }}
-          />
-        )}
-      </div>
-
-      {/* Step tag */}
-      <motion.span
-        animate={{
-          color: isActive ? "#fff" : "rgba(255,255,255,0.28)",
-          fontWeight: isActive ? 600 : 400,
-        }}
-        transition={{ duration: 0.3 }}
-        style={{
-          fontFamily: "'Montserrat', sans-serif",
-          fontSize: 12,
-          letterSpacing: isActive ? "0" : "0.02em",
-          lineHeight: index < total - 1 ? 1 : "normal",
-        }}
-      >
-        {step.tag}
-      </motion.span>
+      ))}
     </div>
   );
 }
 
-// MAIN COMPONENT
+// ─────────────────────────────────────────────
+// ROOT COMPONENT
+// ─────────────────────────────────────────────
+
 export default function HowItWorksSection() {
-  const [track, setTrack] = useState<Track>('users')
-  const [activeStep, setActiveStep] = useState(0)
-  const steps = STEPS[track]
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [track, setTrack] = useState<Track>("users");
+  const [activeStep, setActiveStep] = useState(0);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start center', 'end center'],
-  })
+  const steps = STEPS[track];
 
-  // 1. Reset step when track changes
+  // Stable callback — avoids unnecessary child re-renders
+  const handleActiveStepChange = useCallback((i: number) => {
+    setActiveStep(i);
+  }, []);
+
   const handleTrackChange = (t: Track) => {
-    setTrack(t)
-    setActiveStep(0)
-    // Optional: Scroll user to the top of the section so they start at Step 1
-    containerRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // Determine which "chunk" of the scroll we are in
-    const stepCount = steps.length
-    const currentStep = Math.min(
-      Math.floor(latest * stepCount),
-      stepCount - 1
-    )
-    
-    if (currentStep !== activeStep && currentStep >= 0) {
-      setActiveStep(currentStep)
-    }
-  })
+    if (t === track) return;
+    // Reset immediately — ScrollableSteps will report the correct
+    // step once its new IntersectionObservers fire.
+    setActiveStep(0);
+    setTrack(t);
+  };
 
   return (
     <section
       id="how-it-works"
-      style={{
-        background: "#000",
-        position: "relative",
-      }}
+      style={{ background: "#000", position: "relative" }}
     >
-      {/* Ambient blue radial behind everything */}
+      {/* Ambient radial glow */}
       <div
         aria-hidden="true"
         style={{
@@ -583,7 +735,7 @@ export default function HowItWorksSection() {
         }}
       />
 
-      {/*  HEADER  */}
+      {/* ── HEADER ── */}
       <div className="container mx-auto px-6">
         <div
           style={{
@@ -592,22 +744,19 @@ export default function HowItWorksSection() {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            gap: 0,
           }}
         >
-          {/* Eyebrow */}
           <motion.div
+            className="eyebrow"
+            style={{ marginBottom: 16 }}
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="eyebrow"
-            style={{ marginBottom: 16 }}
           >
             How it works
           </motion.div>
 
-          {/* Headline + toggle on same row */}
           <div
             style={{
               display: "flex",
@@ -622,11 +771,7 @@ export default function HowItWorksSection() {
               initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{
-                duration: 0.7,
-                delay: 0.08,
-                ease: [0.16, 1, 0.3, 1],
-              }}
+              transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 900,
@@ -700,7 +845,6 @@ export default function HowItWorksSection() {
             </motion.div>
           </div>
 
-          {/* Sub-copy */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -722,7 +866,6 @@ export default function HowItWorksSection() {
           </motion.p>
         </div>
 
-        {/* Thin separator */}
         <motion.div
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
@@ -732,46 +875,45 @@ export default function HowItWorksSection() {
             height: 1,
             background: "rgba(255,255,255,0.07)",
             transformOrigin: "left",
-            marginBottom: 0,
           }}
         />
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={track}
-          onAnimationComplete={() => setActiveStep(0)}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+      {/* ── SPLIT BODY ──
+        NOTE: No AnimatePresence / key on this wrapper.
+        The left panel is always mounted and just reads props.
+        The right panel has key=track so it remounts cleanly,
+        which resets all IntersectionObservers for the new track.
+      ── */}
+      <div className="container mx-auto px-6">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1.6fr",
+            gap: "clamp(40px, 6vw, 96px)",
+            alignItems: "start",
+            paddingTop: "6vh",
+            paddingBottom: "clamp(80px, 12vw, 140px)",
+          }}
         >
-          <div className="container mx-auto px-6">
-            {/* 4. Add the ref to this grid */}
-            <div
-              ref={containerRef}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1.6fr",
-                gap: "clamp(40px, 6vw, 96px)",
-                alignItems: "start",
-                paddingTop: "6vh",
-                position: "relative",
-              }}
-            >
-              {/* Pass the state down */}
-              <StickyLeft steps={steps} track={track} activeStep={activeStep} />
+          {/* LEFT — sticky sidebar (always mounted, driven by props) */}
+          <StickyLeft
+            steps={steps}
+            track={track}
+            activeStep={activeStep}
+          />
 
-              <div className="overflow-hidden">
-                {steps.map((step, i) => (
-                  <StepCard key={`${track}-${i}`} step={step} index={i} />
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </AnimatePresence>
+          {/* RIGHT — key=track forces full remount on track switch */}
+          <ScrollableSteps
+            key={track}
+            steps={steps}
+            track={track}
+            onActiveStepChange={handleActiveStepChange}
+          />
+        </div>
+      </div>
 
-      {/*  BOTTOM STATS BAR  */}
+      {/* ── STATS BAR ── */}
       <div
         style={{
           borderTop: "1px solid rgba(255,255,255,0.07)",
@@ -783,7 +925,6 @@ export default function HowItWorksSection() {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)",
-              gap: 1,
             }}
           >
             {[

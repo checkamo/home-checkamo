@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NAV_LINKS, BRAND } from '@/lib/constants'
 import { cn } from '@/lib/utils'
+import { Logo } from '../shared/Logo'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -72,14 +73,7 @@ export function MobileMenu({
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-[var(--border)] sticky top-0 bg-white z-10">
-          <Link
-            href="/"
-            onClick={onClose}
-            className="font-display text-xl font-extrabold tracking-tight text-[var(--text-primary)]"
-            style={{ fontFamily: 'var(--font-display)' }}
-          >
-            Check<span className="text-brand-teal">amo</span>
-          </Link>
+          <Logo variant='full' type='checkamo1'/>
 
           <button
             ref={firstFocusRef}
