@@ -73,7 +73,7 @@ const STEPS: Record<Track, Step[]> = {
         "Released only on your approval",
         "Full refund guarantee if disputed",
       ],
-      imagePath: "/images/hiw/u02.jpg",
+      imagePath: "/images/hiw/u01.jpg",
     },
     {
       number: "03",
@@ -87,7 +87,7 @@ const STEPS: Record<Track, Step[]> = {
         "Average match time: under 10 minutes",
         "You can see their rating before they start",
       ],
-      imagePath: "/images/hiw/u03.jpg",
+      imagePath: "/images/hiw/u01.jpg",
     },
     {
       number: "04",
@@ -101,7 +101,7 @@ const STEPS: Record<Track, Step[]> = {
         "Structured written report",
         "Delivered straight to your dashboard",
       ],
-      imagePath: "/images/hiw/u04.jpg",
+      imagePath: "/images/hiw/u01.jpg",
     },
     {
       number: "05",
@@ -115,7 +115,7 @@ const STEPS: Record<Track, Step[]> = {
         "Dispute mediation available 24 / 7",
         "Full refund if unresolved in your favour",
       ],
-      imagePath: "/images/hiw/u05.jpg",
+      imagePath: "/images/hiw/u01.jpg",
       cta: { label: "Get started", href: BRAND.appUrl, isUser: true },
     },
   ],
@@ -146,7 +146,7 @@ const STEPS: Record<Track, Step[]> = {
         "Jobs come to you — no bidding",
         "No minimum hours or commitment",
       ],
-      imagePath: "/images/hiw/v02.jpg",
+      imagePath: "/images/hiw/v01.jpg",
     },
     {
       number: "03",
@@ -160,7 +160,7 @@ const STEPS: Record<Track, Step[]> = {
         "Completely flexible hours",
         "No penalty for declining jobs",
       ],
-      imagePath: "/images/hiw/v03.jpg",
+      imagePath: "/images/hiw/v01.jpg",
     },
     {
       number: "04",
@@ -174,7 +174,7 @@ const STEPS: Record<Track, Step[]> = {
         "Structured photo submission flow",
         "Offline mode for low connectivity",
       ],
-      imagePath: "/images/hiw/v04.jpg",
+      imagePath: "/images/hiw/v01.jpg",
     },
     {
       number: "05",
@@ -188,7 +188,7 @@ const STEPS: Record<Track, Step[]> = {
         "Transparent platform fee shown upfront",
         "Weekly earnings summary report",
       ],
-      imagePath: "/images/hiw/v05.jpg",
+      imagePath: "/images/hiw/v01.jpg",
       cta: {
         label: "Apply to verify",
         href: BRAND.verifierAppUrl,
