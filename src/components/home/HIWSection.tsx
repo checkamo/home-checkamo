@@ -3,11 +3,7 @@
 import { useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  motion,
-  useInView,
-  AnimatePresence,
-} from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { BRAND } from "@/lib/constants";
 
 // ─────────────────────────────────────────────
@@ -234,7 +230,7 @@ function StickyLeft({
           overflow: "hidden",
           marginBottom: 24,
           background: "#0a1628",
-          border: "1px solid rgba(255,255,255,0.07)",
+          border: "1px solid rgba(var(--text-primary-rgb),0.07)",
           flexShrink: 0,
         }}
       >
@@ -289,7 +285,7 @@ function StickyLeft({
                 fontSize: 10,
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                color: "#fff",
+                color: "var(--text-primary)",
                 background: "rgba(0,0,0,0.52)",
                 backdropFilter: "blur(6px)",
                 padding: "4px 10px",
@@ -378,9 +374,7 @@ function StickyLeft({
                   width: i === activeStep ? 10 : 7,
                   height: i === activeStep ? 10 : 7,
                   background:
-                    i === activeStep
-                      ? accentColor
-                      : "rgba(255,255,255,0.14)",
+                    i === activeStep ? accentColor : "rgba(255,255,255,0.14)",
                   boxShadow:
                     i === activeStep
                       ? `0 0 0 4px ${accentColor}28`
@@ -399,8 +393,8 @@ function StickyLeft({
                       i < activeStep
                         ? accentColor
                         : i === activeStep
-                        ? `linear-gradient(to bottom, ${accentColor}, rgba(255,255,255,0.07))`
-                        : "rgba(255,255,255,0.07)",
+                          ? `linear-gradient(to bottom, ${accentColor}, rgba(var(--text-primary-rgb),0.07))`
+                          : "rgba(255,255,255,0.07)",
                     transition: "background 300ms ease",
                   }}
                 />
@@ -410,8 +404,7 @@ function StickyLeft({
             {/* Label */}
             <motion.span
               animate={{
-                color:
-                  i === activeStep ? "#fff" : "rgba(255,255,255,0.24)",
+                color: i === activeStep ? "#fff" : "rgba(255,255,255,0.24)",
                 fontWeight: i === activeStep ? 600 : 400,
               }}
               transition={{ duration: 0.22 }}
@@ -534,7 +527,7 @@ function StepCard({
             fontSize: "clamp(1.5rem, 2.8vw, 2.1rem)",
             lineHeight: 1.15,
             letterSpacing: "-0.03em",
-            color: "#fff",
+            color: "var(--text-primary)",
             marginBottom: 16,
           }}
         >
@@ -564,7 +557,7 @@ function StepCard({
             fontFamily: "'Montserrat', sans-serif",
             fontSize: "0.975rem",
             lineHeight: 1.8,
-            color: "rgba(255,255,255,0.52)",
+            color: "rgba(var(--text-primary-rgb),0.52)",
             marginBottom: 28,
             fontWeight: 400,
           }}
@@ -622,7 +615,7 @@ function StepCard({
                   fontFamily: "'Montserrat', sans-serif",
                   fontSize: 13,
                   fontWeight: 500,
-                  color: "rgba(255,255,255,0.72)",
+                  color: "rgba(var(--text-primary-rgb),0.72)",
                 }}
               >
                 {b}
@@ -718,7 +711,11 @@ export default function HowItWorksSection() {
   return (
     <section
       id="how-it-works"
-      style={{ background: "#000", position: "relative" }}
+      style={{
+        background: "var(--bg)",
+        position: "relative",
+        overflow: "hidden",
+      }}
     >
       {/* Ambient radial glow */}
       <div
@@ -771,14 +768,18 @@ export default function HowItWorksSection() {
               initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+              transition={{
+                duration: 0.7,
+                delay: 0.08,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               style={{
                 fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 900,
                 fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
                 letterSpacing: "-0.04em",
                 lineHeight: 1.06,
-                color: "#fff",
+                color: "var(--text-primary)",
               }}
             >
               Five steps.{" "}
@@ -804,8 +805,8 @@ export default function HowItWorksSection() {
               style={{
                 display: "flex",
                 gap: 2,
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.09)",
+                background: "rgba(var(--text-primary-rgb),0.05)",
+                border: "1px solid rgba(var(--text-primary-rgb),0.09)",
                 borderRadius: 10,
                 padding: 4,
                 flexShrink: 0,
@@ -830,7 +831,10 @@ export default function HowItWorksSection() {
                           ? "#04bfbf"
                           : "#1d4ed8"
                         : "transparent",
-                    color: track === t ? "#fff" : "rgba(255,255,255,0.38)",
+                    color:
+                      track === t
+                        ? "#fff"
+                        : "rgba(var(--text-primary-rgb), 0.38)",
                     boxShadow:
                       track === t
                         ? t === "users"
@@ -887,21 +891,15 @@ export default function HowItWorksSection() {
       ── */}
       <div className="container mx-auto px-6">
         <div
+          className="grid grid-cols-1 md:grid-cols-[1fr_1.6fr] items-start"
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1.6fr",
             gap: "clamp(40px, 6vw, 96px)",
-            alignItems: "start",
             paddingTop: "6vh",
             paddingBottom: "clamp(80px, 12vw, 140px)",
           }}
         >
           {/* LEFT — sticky sidebar (always mounted, driven by props) */}
-          <StickyLeft
-            steps={steps}
-            track={track}
-            activeStep={activeStep}
-          />
+          <StickyLeft steps={steps} track={track} activeStep={activeStep} />
 
           {/* RIGHT — key=track forces full remount on track switch */}
           <ScrollableSteps
@@ -916,8 +914,8 @@ export default function HowItWorksSection() {
       {/* ── STATS BAR ── */}
       <div
         style={{
-          borderTop: "1px solid rgba(255,255,255,0.07)",
-          background: "rgba(255,255,255,0.02)",
+          borderTop: "1px solid rgba(var(--text-primary-rgb),0.07)",
+          background: "rgba(var(--text-primary-rgb),0.02)",
         }}
       >
         <div className="container mx-auto px-6">
@@ -941,7 +939,9 @@ export default function HowItWorksSection() {
                 style={{
                   padding: "clamp(28px, 4vw, 40px) 24px",
                   borderRight:
-                    i < 2 ? "1px solid rgba(255,255,255,0.07)" : "none",
+                    i < 2
+                      ? "1px solid rgba(var(--text-primary-rgb),0.07)"
+                      : "none",
                   textAlign: "center",
                 }}
               >
@@ -952,7 +952,7 @@ export default function HowItWorksSection() {
                     fontWeight: 900,
                     letterSpacing: "-0.04em",
                     background:
-                      "linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.55) 100%)",
+                      "linear-gradient(135deg, #fff 0%, rgba(var(--text-primary-rgb),0.55) 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -965,7 +965,7 @@ export default function HowItWorksSection() {
                   style={{
                     fontFamily: "'Montserrat', sans-serif",
                     fontSize: 12,
-                    color: "rgba(255,255,255,0.35)",
+                    color: "rgba(var(--text-primary-rgb),0.35)",
                     letterSpacing: "0.04em",
                   }}
                 >

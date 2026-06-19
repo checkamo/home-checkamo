@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { BRAND } from '@/lib/constants'
 import { cn } from '@/lib/utils'
+import { TextType } from '@/components/animations/TextType'
 
 // SSR-safe — three-globe needs browser APIs + WebGL
 const GlobeCanvas = dynamic(
@@ -41,7 +42,7 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-white"
+      className="relative w-full overflow-hidden bg-[var(--bg)]"
       style={{ minHeight: '100vh', paddingTop: 'var(--nav-height)' }}
       aria-label="Checkamo — verify anything in Nigeria"
     >
@@ -69,7 +70,7 @@ export function HeroSection() {
         style={{
           left: '30%',
           width: '28%',
-          background: 'linear-gradient(to right, #ffffff 0%, rgba(255,255,255,0.85) 40%, transparent 100%)',
+          background: 'linear-gradient(to right, var(--bg) 0%, rgba(var(--bg-rgb),0.85) 40%, transparent 100%)',
         }}
         aria-hidden="true"
       />
@@ -77,7 +78,7 @@ export function HeroSection() {
       {/* Bottom fade */}
       <div
         className="absolute bottom-0 left-0 right-0 h-40 z-10 pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom, transparent, #ffffff)' }}
+        style={{ background: 'linear-gradient(to bottom, transparent, var(--bg))' }}
         aria-hidden="true"
       />
 
@@ -114,11 +115,11 @@ export function HeroSection() {
               className="font-black leading-[1.0] tracking-[-0.04em] mb-1 select-none"
               style={{
                 fontFamily: "'Montserrat', sans-serif",
-                fontSize: 'clamp(2.8rem, 6vw, 5.4rem)',
+                fontSize: 'clamp(2.2rem, 6vw, 5.4rem)',
                 color: 'var(--text-primary)',
               }}
             >
-              Don&rsquo;t guess.
+              <TextType text="Don't guess." />
             </h1>
 
             {/* Cycling line */}
@@ -136,7 +137,7 @@ export function HeroSection() {
                 )}
                 style={{
                   fontFamily: "'Montserrat', sans-serif",
-                  fontSize: 'clamp(2.8rem, 6vw, 5.4rem)',
+                  fontSize: 'clamp(2.2rem, 6vw, 5.4rem)',
                 }}
                 aria-hidden="true"
               >

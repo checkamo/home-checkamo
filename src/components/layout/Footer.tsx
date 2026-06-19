@@ -1,9 +1,42 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link'
 import { FOOTER_LINKS, BRAND, SOCIAL_LINKS } from '@/lib/constants'
 import { Logo } from '../shared/Logo'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
+  
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [message, setMessage] = useState('');
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    setMessage('');
+    
+    try {
+      const res = await fetch(`/api/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      
+      if (res.ok) {
+        setStatus('success');
+        setMessage('Successfully subscribed!');
+        setEmail('');
+      } else {
+        setStatus('error');
+        setMessage('Subscription failed. Please try again.');
+      }
+    } catch (err) {
+      setStatus('error');
+      setMessage('Network error. Please try again later.');
+    }
+  };
 
   return (
     <footer className="footer-dark" aria-label="Site footer">
@@ -19,7 +52,7 @@ export function Footer() {
 
             {/* Tagline */}
             <p className="text-sm leading-relaxed text-white/50 max-w-[280px] mb-6">
-              Nigeria's trusted verification platform. Connect with local experts before you buy, hire, or send payment.
+              Trusted verification platform. Connect with local experts before you buy, hire, or send payment.
             </p>
 
             {/* Trust badge row */}
@@ -65,7 +98,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Company links */}
+          {/* Company & Support links */}
           <div>
             <p className="text-xs font-bold tracking-[0.10em] uppercase text-white mb-5">
               Company
@@ -88,6 +121,17 @@ export function Footer() {
                 </Link>
               ))}
             </div>
+            
+            <p className="text-xs font-bold tracking-[0.10em] uppercase text-white mt-8 mb-5">
+              Legal
+            </p>
+            <div className="flex flex-col gap-3">
+              {FOOTER_LINKS.legal.map((link) => (
+                <Link key={link.href} href={link.href} className="footer-link">
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </div>
 
           {/* Newsletter + contact column */}
@@ -101,7 +145,7 @@ export function Footer() {
 
             {/* Newsletter form */}
             <form
-            //   onSubmit={(e) => e.preventDefault()}
+              onSubmit={handleSubscribe}
               className="flex flex-col gap-2.5"
               aria-label="Newsletter signup"
             >
@@ -109,15 +153,25 @@ export function Footer() {
                 type="email"
                 placeholder="your@email.com"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={status === 'loading'}
                 aria-label="Email address"
-                className="w-full px-4 py-2.5 rounded-lg bg-white/6 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand-teal focus:bg-white/8 transition-colors"
+                className="w-full px-4 py-2.5 rounded-lg bg-white/6 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[var(--c-teal)] focus:bg-white/8 transition-colors"
               />
               <button
                 type="submit"
-                className="btn btn-primary text-sm py-2.5 w-full justify-center"
+                disabled={status === 'loading'}
+                className="btn btn-primary text-sm py-2.5 w-full justify-center disabled:opacity-50"
               >
-                Subscribe
+                {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
               </button>
+              
+              {message && (
+                <p className={`text-xs mt-1 ${status === 'success' ? 'text-[var(--c-teal)]' : 'text-red-400'}`}>
+                  {message}
+                </p>
+              )}
             </form>
 
             {/* Contact */}
@@ -125,12 +179,30 @@ export function Footer() {
               <p className="text-xs font-bold tracking-[0.10em] uppercase text-white mb-3">
                 Contact
               </p>
-              <a
-                href={`mailto:${BRAND.supportEmail}`}
-                className="footer-link hover:text-brand-teal transition-colors"
-              >
-                {BRAND.supportEmail}
-              </a>
+              <div className="flex flex-col gap-2">
+                <a
+                  href={`mailto:${BRAND.supportEmail}`}
+                  className="footer-link hover:text-brand-teal transition-colors"
+                >
+                  {BRAND.supportEmail}
+                </a>
+                <a
+                  href="mailto:contact.checkamo@gmail.com"
+                  className="footer-link hover:text-brand-teal transition-colors"
+                >
+                  contact.checkamo@gmail.com
+                </a>
+                <p className="text-xs text-white/50 mt-2 leading-relaxed">
+                  <span className="font-semibold text-white/70">US Headquarters:</span><br />
+                  730 E McKellips Rd.<br />
+                  Tempe, Arizona, 85288
+                </p>
+                <p className="text-xs text-white/50 mt-1 leading-relaxed">
+                  <span className="font-semibold text-white/70">Nigeria Office:</span><br />
+                  82 Calabar Road, Cross River State<br />
+                  Magboro, Lagos
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -143,27 +215,11 @@ export function Footer() {
 
       {/* ── Bottom bar ── */}
       <div className="container-xl px-6 py-5">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           {/* Copyright */}
-          <p className="text-xs text-white/30 order-2 sm:order-1">
+          <p className="text-xs text-white/30 text-center">
             &copy; {currentYear} Checkamo Technologies Ltd. All rights reserved.
           </p>
-
-          {/* Legal links */}
-          <nav
-            aria-label="Legal navigation"
-            className="flex items-center gap-5 flex-wrap justify-center order-1 sm:order-2"
-          >
-            {FOOTER_LINKS.legal.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-xs text-white/35 hover:text-white/70 transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
         </div>
       </div>
 

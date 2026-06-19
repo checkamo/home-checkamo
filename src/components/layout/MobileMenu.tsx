@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { NAV_LINKS, BRAND } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { Logo } from '../shared/Logo'
+import { ThemeToggle } from '../theme/ThemeToggle'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -69,20 +70,23 @@ export function MobileMenu({
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
-        className={cn('mobile-drawer', isOpen && 'mobile-drawer--open')}
+        className={cn('mobile-drawer glass-panel', isOpen && 'mobile-drawer--open')}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-[var(--border)] sticky top-0 bg-white z-10">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-[var(--border)] sticky top-0 bg-transparent z-10">
           <Logo variant='full' type='checkamo1'/>
 
-          <button
-            ref={firstFocusRef}
-            onClick={onClose}
-            aria-label="Close navigation menu"
-            className="w-9 h-9 flex items-center justify-center rounded-lg text-[var(--text-tertiary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)] transition-colors"
-          >
-            <CloseIcon />
-          </button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              ref={firstFocusRef}
+              onClick={onClose}
+              aria-label="Close navigation menu"
+              className="w-9 h-9 flex items-center justify-center rounded-lg text-[var(--text-tertiary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)] transition-colors"
+            >
+              <CloseIcon />
+            </button>
+          </div>
         </div>
 
         {/* Body — scroll if content overflows */}
@@ -126,7 +130,7 @@ export function MobileMenu({
                 </span>
               </button>
 
-              <div className="accordion-content">
+              <div className={cn("accordion-content", categoriesOpen && "is-open")}>
                 <div className="ml-4 mt-1 border-l-2 border-[var(--border)] pl-3 pb-2 flex flex-col gap-0.5">
                   <Link
                     href="/categories"
@@ -143,7 +147,7 @@ export function MobileMenu({
                       className={cn(
                         'px-3 py-2.5 rounded-lg text-sm transition-colors',
                         isActive(child.href)
-                          ? 'text-brand-teal font-medium'
+                          ? 'text-brand-teal font-medium bg-[rgba(4,191,191,0.08)]'
                           : 'text-[var(--text-tertiary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)]'
                       )}
                     >
@@ -161,16 +165,15 @@ export function MobileMenu({
           {/* Secondary links */}
           <div className="mb-2">
             {[
-              { label: 'About Us',        href: '/about' },
-              { label: 'Help Center',     href: '/help' },
-              { label: 'Blog',            href: '/blog' },
+              { label: 'About Us',        href: '/about-us' },
+              { label: 'Help Center',     href: '/help-center' },
               { label: 'Trust & Safety',  href: '/trust-and-safety' },
             ].map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={onClose}
-                className="flex items-center px-4 py-3 rounded-xl text-sm text-[var(--text-tertiary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                className="flex items-center px-4 py-3 rounded-xl text-[15px] text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)] transition-colors font-medium"
               >
                 {link.label}
               </Link>

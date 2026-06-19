@@ -8,6 +8,7 @@ import { useScrolled } from '@/hooks/useScrolled'
 import { cn } from '@/lib/utils'
 import { MobileMenu } from './MobileMenu'
 import { Logo } from '../shared/Logo'
+import { ThemeToggle } from '../theme/ThemeToggle'
 
 export function Navbar() {
   const pathname = usePathname()
@@ -114,7 +115,7 @@ export function Navbar() {
                       onMouseEnter={cancelClose}
                       onMouseLeave={scheduleClose}
                       className={cn(
-                        'nav-dropdown',
+                        'nav-dropdown bg-[var(--bg)] shadow-2xl border border-[var(--border)] rounded-2xl',
                         activeDropdown === link.label && 'nav-dropdown--open'
                       )}
                     >
@@ -175,6 +176,7 @@ export function Navbar() {
 
           {/*  Desktop CTAs  */}
           <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
+            <ThemeToggle />
             <Link
               href={`${BRAND.appUrl}/login`}
               className="px-4 py-2 text-sm font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors rounded-lg hover:bg-[var(--bg-secondary)]"
