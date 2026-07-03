@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { CurrencyTicker } from "@/components/layout/CurrencyTicker";
-
+import { Toaster } from "sonner";
 // Primary font — all body copy, headings, CTAs
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -106,6 +106,7 @@ export default function RootLayout({
       <body className="overflow-x-hidden w-full relative">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex flex-col min-h-screen overflow-x-hidden w-full relative">
+            <Toaster position="bottom-right" />
             <JsonLd />
             <CurrencyTicker />
             <Navbar />
