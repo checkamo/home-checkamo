@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link'
 import { FOOTER_LINKS, BRAND, SOCIAL_LINKS } from '@/lib/constants'
 import { Logo } from '../shared/Logo'
+import { toast } from 'sonner';
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -26,15 +27,21 @@ export function Footer() {
       
       if (res.ok) {
         setStatus('success');
-        setMessage('Successfully subscribed!');
+        toast.success('Successfully subscribed!', {
+          description: 'Keep an eye on your inbox for the latest updates.',
+        });
         setEmail('');
       } else {
         setStatus('error');
-        setMessage('Subscription failed. Please try again.');
+        toast.error('Subscription failed', {
+          description: 'Please try again later.',
+        });
       }
     } catch (err) {
       setStatus('error');
-      setMessage('Network error. Please try again later.');
+      toast.error('Network error', {
+        description: 'Please check your connection and try again.',
+      });
     }
   };
 
@@ -166,12 +173,6 @@ export function Footer() {
               >
                 {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
               </button>
-              
-              {message && (
-                <p className={`text-xs mt-1 ${status === 'success' ? 'text-[var(--c-teal)]' : 'text-red-400'}`}>
-                  {message}
-                </p>
-              )}
             </form>
 
             {/* Contact */}
