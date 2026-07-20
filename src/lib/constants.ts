@@ -15,6 +15,10 @@ export const NAV_LINKS = [
     href: '/how-it-works',
   },
   {
+    label: 'Ask ABRAHAM',
+    href: '/ask-abraham',
+  },
+  {
     label: 'Categories',
     href: '/categories',
     children: [

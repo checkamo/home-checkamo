@@ -6,6 +6,7 @@ This is the main landing page for the Checkamo platform, designed to introduce t
 
 - **Marketing Pages**: Home, About, Pricing, and Contact sections.
 - **Conversion Routes**: Call-to-actions to direct individuals/businesses to the User app, and professionals to the Verifier app.
+- **ABRAHAM AI Landing**: Introducing Checkamo's intelligent verification assistant to users.
 - **Responsive Design**: Fully mobile-responsive layouts.
 
 ## Tech Stack
