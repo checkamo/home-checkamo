@@ -2,6 +2,19 @@
 
 Checkamo is a comprehensive verification platform designed to build trust between individuals and businesses. It connects people who need something verified (buyers, investors, employers) with local experts (Verifiers) who can validate items, properties, documents, or businesses on the ground. Checkamo acts as an intelligent trust advisor, backed by AI and real human verification.
 
+## 🚀 INTRODUCING PROJECT ABRAHAM
+
+**Project Start Date:** July 2026
+
+Project ABRAHAM is Checkamo’s groundbreaking, multimodal AI Trust Advisor, engineered to combat the rising tide of sophisticated scams and fraud in emerging markets. Built on top of Google Gemini and DeepSeek, ABRAHAM acts as an intelligent first line of defense for users engaging in online transactions, peer-to-peer marketplaces, and real estate investments. It proactively analyzes context, identifies subtle red flags, and provides actionable risk assessments before any money changes hands.
+
+### The ABRAHAM User Flow:
+
+1. **Input & Upload:** Users interact with ABRAHAM via chat, uploading screenshots of seller conversations, suspicious property listings, or identity documents.
+2. **Multimodal Analysis:** Leveraging Gemini's advanced image processing and DeepSeek's logical reasoning, ABRAHAM extracts critical data, evaluates the seller's tone, and cross-references information against known fraud patterns.
+3. **Risk Scoring & Intelligence:** ABRAHAM generates an immediate Trust Assessment, explicitly highlighting anomalies such as manipulated images, unusually urgent payment requests, or inconsistent listing details.
+4. **Actionable Outcomes:** Based on the risk level, ABRAHAM provides concrete recommendations. If physical validation is deemed necessary, ABRAHAM seamlessly transitions the user to create a Checkamo Verification Request, deploying a local Verifier to the field.
+
 ## 🌟 The Flow of Engagements & Payments
 
 The Checkamo ecosystem consists of three main components: the **Home Page**, the **User App**, and the **Verifier App**.
