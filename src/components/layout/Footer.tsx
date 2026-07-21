@@ -75,7 +75,7 @@ export function Footer() {
             </div>
 
             {/* Social links */}
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2.5 mb-8">
               {SOCIAL_LINKS.map((social) => (
                 <a
                   key={social.platform}
@@ -88,6 +88,12 @@ export function Footer() {
                   <SocialIcon platform={social.platform} />
                 </a>
               ))}
+            </div>
+
+            {/* Monnify Badge */}
+            <div className="flex flex-col items-start gap-2">
+              <span className="text-xs text-white/50 font-medium tracking-wide uppercase">Payments Secured & Powered by</span>
+              <img src="/images/partners/logo-new-monnify.svg" alt="Monnify" className="h-8 opacity-80 hover:opacity-100 transition-opacity" />
             </div>
           </div>
 
@@ -200,7 +206,8 @@ export function Footer() {
                 </p>
                 <p className="text-xs text-white/50 mt-1 leading-relaxed">
                   <span className="font-semibold text-white/70">Nigeria Office:</span><br />
-                  17 CMD Road, Ikosi-Ketu, Lagos State
+                  17 CMD Road, Ikosi-Ketu, Lagos State<br />
+                  82 Calabar Road Miniplex, Cross River State
                 </p>
               </div>
             </div>
@@ -215,17 +222,11 @@ export function Footer() {
 
       {/* ── Bottom bar ── */}
       <div className="container-xl px-6 py-5">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           {/* Copyright */}
-          <p className="text-xs text-white/30 text-center sm:text-left">
+          <p className="text-xs text-white/30 text-center">
             &copy; {currentYear} Checkamo Technologies Ltd. All rights reserved.
           </p>
-          
-          {/* Monnify */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-white/40">Payments Secured and Powered by</span>
-            <img src="/images/partners/logo-new-monnify.svg" alt="Monnify" className="h-4 opacity-60 hover:opacity-100 transition-opacity" />
-          </div>
         </div>
       </div>
 

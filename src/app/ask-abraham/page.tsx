@@ -465,9 +465,26 @@ export default function AskAbrahamPage() {
           >
             <h3 className="text-2xl font-bold mb-6">Ready to Verify with Confidence?</h3>
             <p className="mb-8 text-[var(--text-secondary)]">Ask ABRAHAM your first question today and discover a better way to make informed decisions.</p>
-            <Link href={`${BRAND.appUrl}/dashboard`} className="btn btn-primary text-lg px-8 py-4 shadow-xl">
-              Start with ABRAHAM
-            </Link>
+            <div className="flex flex-col items-center justify-center">
+              <Link href={`${BRAND.appUrl}/dashboard`} className="btn btn-primary text-lg px-8 py-4 shadow-xl mb-8">
+                Start with ABRAHAM
+              </Link>
+              
+              <div className="flex flex-col sm:flex-row items-center gap-3 text-sm text-[var(--text-tertiary)] font-medium">
+                <span>ABRAHAM is powered by</span>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1.5">
+                    <img src="/images/partners/gemini-logo.svg" alt="Gemini" className="h-5 object-contain" />
+                    <span className="text-[var(--text-primary)] font-semibold">Gemini</span>
+                  </div>
+                  <span className="text-white/30 text-xs">and</span>
+                  <div className="flex items-center gap-1.5">
+                    <img src="/images/partners/deepseek-logo.svg" alt="DeepSeek" className="h-5 object-contain" />
+                    <span className="text-[var(--text-primary)] font-semibold">DeepSeek</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
