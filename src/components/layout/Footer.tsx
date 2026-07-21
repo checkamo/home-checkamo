@@ -200,8 +200,7 @@ export function Footer() {
                 </p>
                 <p className="text-xs text-white/50 mt-1 leading-relaxed">
                   <span className="font-semibold text-white/70">Nigeria Office:</span><br />
-                  82 Calabar Road, Cross River State<br />
-                  Magboro, Lagos
+                  17 CMD Road, Ikosi-Ketu, Lagos State
                 </p>
               </div>
             </div>
@@ -216,11 +215,17 @@ export function Footer() {
 
       {/* ── Bottom bar ── */}
       <div className="container-xl px-6 py-5">
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Copyright */}
-          <p className="text-xs text-white/30 text-center">
+          <p className="text-xs text-white/30 text-center sm:text-left">
             &copy; {currentYear} Checkamo Technologies Ltd. All rights reserved.
           </p>
+          
+          {/* Monnify */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-white/40">Payments Secured and Powered by</span>
+            <img src="/images/partners/logo-new-monnify.svg" alt="Monnify" className="h-4 opacity-60 hover:opacity-100 transition-opacity" />
+          </div>
         </div>
       </div>
 
