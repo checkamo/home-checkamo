@@ -46,7 +46,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="footer-dark" aria-label="Site footer">
+    <footer className="bg-[var(--bg)] text-[var(--text-primary)] border-t border-[var(--border)]" aria-label="Site footer">
 
       {/* ── Main footer grid ── */}
       <div className="container mx-auto px-6 pt-20 pb-14">
@@ -58,19 +58,19 @@ export function Footer() {
           <Logo variant='full' type='checkamo'/>
 
             {/* Tagline */}
-            <p className="text-sm leading-relaxed text-white/50 max-w-[280px] mb-6">
+            <p className="text-sm leading-relaxed text-[var(--text-secondary)] max-w-[280px] mb-6">
               Trusted verification platform. Connect with local experts before you buy, hire, or send payment.
             </p>
 
             {/* Trust badge row */}
             <div className="flex items-center gap-3 mb-8">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/8">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)]">
                 <ShieldIcon />
-                <span className="text-xs text-white/50 font-medium">Escrow Protected</span>
+                <span className="text-xs text-[var(--text-secondary)] font-medium">Escrow Protected</span>
               </div>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/8">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)]">
                 <VerifiedIcon />
-                <span className="text-xs text-white/50 font-medium">Verified Verifiers</span>
+                <span className="text-xs text-[var(--text-secondary)] font-medium">Verified Verifiers</span>
               </div>
             </div>
 
@@ -92,14 +92,14 @@ export function Footer() {
 
             {/* Monnify Badge */}
             <div className="flex flex-col items-start gap-2">
-              <span className="text-xs text-white/50 font-medium tracking-wide uppercase">Payments Secured & Powered by</span>
+              <span className="text-xs text-[var(--text-secondary)] font-medium tracking-wide uppercase">Payments Secured & Powered by</span>
               <img src="/images/partners/logo-new-monnify.svg" alt="Monnify" className="h-8 opacity-80 hover:opacity-100 transition-opacity" />
             </div>
           </div>
 
           {/* Product links */}
           <div>
-            <p className="text-xs font-bold tracking-[0.10em] uppercase text-white mb-5">
+            <p className="text-xs font-bold tracking-[0.10em] uppercase text-[var(--text-primary)] mb-5">
               Product
             </p>
             <div className="flex flex-col gap-3">
@@ -113,7 +113,7 @@ export function Footer() {
 
           {/* Company & Support links */}
           <div>
-            <p className="text-xs font-bold tracking-[0.10em] uppercase text-white mb-5">
+            <p className="text-xs font-bold tracking-[0.10em] uppercase text-[var(--text-primary)] mb-5">
               Company
             </p>
             <div className="flex flex-col gap-3">
@@ -124,7 +124,7 @@ export function Footer() {
               ))}
             </div>
 
-            <p className="text-xs font-bold tracking-[0.10em] uppercase text-white mt-8 mb-5">
+            <p className="text-xs font-bold tracking-[0.10em] uppercase text-[var(--text-primary)] mt-8 mb-5">
               Support
             </p>
             <div className="flex flex-col gap-3">
@@ -135,7 +135,7 @@ export function Footer() {
               ))}
             </div>
             
-            <p className="text-xs font-bold tracking-[0.10em] uppercase text-white mt-8 mb-5">
+            <p className="text-xs font-bold tracking-[0.10em] uppercase text-[var(--text-primary)] mt-8 mb-5">
               Legal
             </p>
             <div className="flex flex-col gap-3">
@@ -149,10 +149,10 @@ export function Footer() {
 
           {/* Newsletter + contact column */}
           <div>
-            <p className="text-xs font-bold tracking-[0.10em] uppercase text-white mb-5">
+            <p className="text-xs font-bold tracking-[0.10em] uppercase text-[var(--text-primary)] mb-5">
               Stay updated
             </p>
-            <p className="text-sm text-white/45 mb-4 leading-relaxed">
+            <p className="text-sm text-[var(--text-secondary)] mb-4 leading-relaxed">
               Verification tips, scam alerts, and platform updates. No spam.
             </p>
 
@@ -170,7 +170,7 @@ export function Footer() {
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={status === 'loading'}
                 aria-label="Email address"
-                className="w-full px-4 py-2.5 rounded-lg bg-white/6 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[var(--c-teal)] focus:bg-white/8 transition-colors"
+                className="w-full px-4 py-2.5 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none focus:border-[var(--c-teal)] focus:bg-[var(--bg-secondary)] transition-colors"
               />
               <button
                 type="submit"
@@ -183,7 +183,7 @@ export function Footer() {
 
             {/* Contact */}
             <div className="mt-8">
-              <p className="text-xs font-bold tracking-[0.10em] uppercase text-white mb-3">
+              <p className="text-xs font-bold tracking-[0.10em] uppercase text-[var(--text-primary)] mb-3">
                 Contact
               </p>
               <div className="flex flex-col gap-2">
@@ -199,13 +199,13 @@ export function Footer() {
                 >
                   contact.checkamo@gmail.com
                 </a>
-                <p className="text-xs text-white/50 mt-2 leading-relaxed">
-                  <span className="font-semibold text-white/70">US Headquarters:</span><br />
+                <p className="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed">
+                  <span className="font-semibold text-[var(--text-primary)]">US Headquarters:</span><br />
                   730 E McKellips Rd.<br />
                   Tempe, Arizona, 85288
                 </p>
-                <p className="text-xs text-white/50 mt-1 leading-relaxed">
-                  <span className="font-semibold text-white/70">Nigeria Office:</span><br />
+                <p className="text-xs text-[var(--text-secondary)] mt-1 leading-relaxed">
+                  <span className="font-semibold text-[var(--text-primary)]">Nigeria Office:</span><br />
                   17 CMD Road, Ikosi-Ketu, Lagos State<br />
                   82 Calabar Road Miniplex, Cross River State
                 </p>
@@ -217,28 +217,28 @@ export function Footer() {
 
       {/* ── Divider ── */}
       <div className="container-xl px-6">
-        <div className="divider-dark" />
+        <div className="h-px w-full bg-[var(--border)]" />
       </div>
 
       {/* ── Bottom bar ── */}
       <div className="container-xl px-6 py-5">
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           {/* Copyright */}
-          <p className="text-xs text-white/30 text-center">
+          <p className="text-xs text-[var(--text-tertiary)] text-center">
             &copy; {currentYear} Checkamo Technologies Ltd. All rights reserved.
           </p>
         </div>
       </div>
 
       {/* ── Verifier CTA strip ── */}
-      <div className="border-t border-white/6">
+      <div className="border-t border-[var(--border)]">
         <div className="container-xl px-6 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold text-white/80">
+              <p className="text-sm font-semibold text-[var(--text-primary)]">
                 Want to earn as a verifier?
               </p>
-              <p className="text-xs text-white/40 mt-0.5">
+              <p className="text-xs text-[var(--text-tertiary)] mt-0.5">
                 Join thousands of verifiers earning from their local knowledge.
               </p>
             </div>

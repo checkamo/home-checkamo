@@ -9,7 +9,7 @@ import { TextType } from '@/components/animations/TextType'
 
 const VERIFICATION_CATEGORIES = [
   {
-    title: '🏠 Properties & Real Estate',
+    title: 'Properties & Real Estate',
     desc: 'Upload a property listing or describe your situation.',
     bullets: [
       'Identify common real estate scam indicators',
@@ -21,7 +21,7 @@ const VERIFICATION_CATEGORIES = [
     img: '/images/categories/property.jpg'
   },
   {
-    title: '📱 Products & Electronics',
+    title: 'Products & Electronics',
     desc: 'Planning to buy a phone, laptop, television, or other electronics?',
     bullets: [
       'Analyze product listings',
@@ -33,7 +33,7 @@ const VERIFICATION_CATEGORIES = [
     img: '/images/categories/product.jpg'
   },
   {
-    title: '🚗 Vehicles',
+    title: 'Vehicles',
     desc: 'Before buying a vehicle, let ABRAHAM help you evaluate:',
     bullets: [
       'Listing quality',
@@ -45,7 +45,7 @@ const VERIFICATION_CATEGORIES = [
     img: '/images/categories/vehicle.webp'
   },
   {
-    title: '📄 Documents & Certificates',
+    title: 'Documents & Certificates',
     desc: 'Upload supported documents for intelligent analysis.',
     bullets: [
       'Certificates & Contracts',
@@ -56,7 +56,7 @@ const VERIFICATION_CATEGORIES = [
     img: '/images/categories/document.jpg'
   },
   {
-    title: '👤 Identity & Background',
+    title: 'Identity & Background',
     desc: 'Need to verify someone before doing business?',
     bullets: [
       'Information consistency',
@@ -68,7 +68,7 @@ const VERIFICATION_CATEGORIES = [
     img: '/images/categories/identity.jpg'
   },
   {
-    title: '💬 Conversation Analysis',
+    title: 'Conversation Analysis',
     desc: 'Paste a conversation from WhatsApp, Telegram, Messenger, Instagram, email, or SMS.',
     bullets: [
       'Pressure tactics',
@@ -80,7 +80,7 @@ const VERIFICATION_CATEGORIES = [
     img: '/images/categories/services.jpg'
   },
   {
-    title: '🌐 Website & Online Store Review',
+    title: 'Website & Online Store Review',
     desc: 'Share a website or online store.',
     bullets: [
       'Trust indicators',
@@ -91,7 +91,7 @@ const VERIFICATION_CATEGORIES = [
     img: '/images/categories/online-stores.jpg'
   },
   {
-    title: '💼 Business Verification',
+    title: 'Business Verification',
     desc: 'Before entering into a partnership or making an investment:',
     bullets: [
       'Business credibility indicators',
@@ -178,7 +178,7 @@ export default function AskAbrahamPage() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link href={`${BRAND.appUrl}/dashboard`} className="btn btn-primary text-lg px-8 py-4 shadow-lg shadow-teal-500/25 transition-transform hover:scale-105">
-              🤖 Try ABRAHAM
+              Try ABRAHAM
             </Link>
           </motion.div>
         </div>
@@ -282,16 +282,16 @@ export default function AskAbrahamPage() {
               
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { icon: '📷', label: 'Images' },
-                  { icon: '📄', label: 'Documents' },
-                  { icon: '🌐', label: 'Website links' },
-                  { icon: '💬', label: 'Conversations' },
-                  { icon: '📍', label: 'Locations' },
-                  { icon: '📝', label: 'Descriptions' },
-                  { icon: '📋', label: 'Business info' }
+                  { label: 'Images' },
+                  { label: 'Documents' },
+                  { label: 'Website links' },
+                  { label: 'Conversations' },
+                  { label: 'Locations' },
+                  { label: 'Descriptions' },
+                  { label: 'Business info' }
                 ].map((item) => (
                   <div key={item.label} className="flex items-center gap-3 p-4 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border)] hover:border-[var(--c-ocean)]/50 transition-colors">
-                    <span className="text-2xl">{item.icon}</span>
+                    
                     <span className="font-semibold text-[var(--text-primary)]">{item.label}</span>
                   </div>
                 ))}
@@ -315,14 +315,14 @@ export default function AskAbrahamPage() {
               <div className="space-y-6">
                 <div className="p-5 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border)]">
                   <h4 className="font-bold text-[var(--c-ocean)] flex items-center gap-2 mb-2">
-                    🛡️ Trust Score
+                    Trust Score
                   </h4>
                   <p className="text-sm text-[var(--text-secondary)]">A confidence rating based on the available information.</p>
                 </div>
 
                 <div className="p-5 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border)]">
                   <h4 className="font-bold text-[var(--text-primary)] flex items-center gap-2 mb-3">
-                    ⚠️ Risk Level
+                    Risk Level
                   </h4>
                   <div className="flex gap-2">
                     <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-500/10 text-green-500 border border-green-500/20">Low</span>
@@ -333,7 +333,7 @@ export default function AskAbrahamPage() {
 
                 <div className="p-5 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border)]">
                   <h4 className="font-bold text-[var(--c-teal)] flex items-center gap-2 mb-2">
-                    🔍 Key Findings & Recommended Actions
+                    Key Findings & Recommended Actions
                   </h4>
                   <p className="text-sm text-[var(--text-secondary)]">A clear explanation of the factors influencing the assessment and practical next steps you can take before making a decision.</p>
                 </div>
@@ -418,7 +418,7 @@ export default function AskAbrahamPage() {
                 'Verifier recommendations', 'Enterprise AI verification tools'
               ].map((item, i) => (
                 <span key={i} className="px-6 py-3 glass-3d rounded-full border border-[var(--border)] font-semibold text-[var(--text-primary)]">
-                  ✨ {item}
+                  {item}
                 </span>
               ))}
             </motion.div>
