@@ -15,6 +15,18 @@ Project ABRAHAM is Checkamo’s groundbreaking, multimodal AI Trust Advisor, eng
 3. **Risk Scoring & Intelligence:** ABRAHAM generates an immediate Trust Assessment, explicitly highlighting anomalies such as manipulated images, unusually urgent payment requests, or inconsistent listing details.
 4. **Actionable Outcomes:** Based on the risk level, ABRAHAM provides concrete recommendations. If physical validation is deemed necessary, ABRAHAM seamlessly transitions the user to create a Checkamo Verification Request, deploying a local Verifier to the field.
 
+## 💳 How We Use Monnify for Payments
+
+Monnify serves as the backbone of our financial infrastructure, providing secure, instant, and transparent transactions across the entire Checkamo ecosystem.
+
+### The Payment Flow:
+
+1. **User Upfront Payment:** When a user creates a Verification Request and chooses the "Pay First" option, they are securely redirected to the Monnify checkout portal. Users can pay seamlessly via Card, USSD, or Bank Transfer.
+2. **Escrow Security:** The funds are immediately secured in a Checkamo Escrow wallet powered by Monnify. This guarantees that the user's money is safe and the verifier is assured of payment upon completion.
+3. **Wallet Funding & Instant Pay:** Alternatively, users can pre-fund their Checkamo Wallet (via Monnify Virtual Accounts) and pay for requests instantly with zero routing delay.
+4. **Verifier Payouts:** Once the verifier completes the job and the user approves the report, the escrowed funds (minus the platform fee) are automatically released to the verifier's Checkamo Wallet.
+5. **Instant Withdrawals:** Verifiers can withdraw their wallet balance directly to their local bank accounts at any time. Monnify's disbursement API ensures these withdrawals are processed instantly, 24/7.
+
 ## 🌟 The Flow of Engagements & Payments
 
 The Checkamo ecosystem consists of three main components: the **Home Page**, the **User App**, and the **Verifier App**.
