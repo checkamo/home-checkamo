@@ -396,7 +396,7 @@ export default function AskAbrahamPage() {
             </p>
           </BorderGlow>
 
-          <BorderGlow className="p-8" borderRadius={16} backgroundColor="rgba(4,191,191,0.03)" colors={['#04bfbf', '#0388a6', '#025266']} animated={false}>
+          <BorderGlow className="p-8" borderRadius={16} backgroundColor="var(--bg-secondary)" colors={['#04bfbf', '#0388a6', '#025266']} animated={false}>
             <h3 className="text-2xl font-bold mb-4 text-[var(--c-teal)]">Privacy Comes First</h3>
             <p className="text-[var(--text-secondary)] mb-4">
               Your privacy matters. Information shared with ABRAHAM is handled securely and used only to provide intelligent verification assistance.

@@ -26,7 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.checkamo.com"),
   title: {
-    default: "Checkamo — Verify Anything, Anywhere in Nigeria",
+    default: "Checkamo — Verify Anything, Anywhere",
     template: "%s | Checkamo",
   },
   description:
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     locale: "en_NG",
     url: "https://www.checkamo.com",
     siteName: "Checkamo",
-    title: "Checkamo — Verify Anything, Anywhere in Nigeria",
+    title: "Checkamo — Verify Anything, Anywhere",
     description:
       "Trusted verification platform connecting users with local experts across Nigeria.",
     images: [
