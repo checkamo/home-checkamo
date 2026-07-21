@@ -4,7 +4,7 @@ Checkamo is a comprehensive verification platform designed to build trust betwee
 
 ## 🚀 INTRODUCING PROJECT ABRAHAM
 
-**Project Start Date:** July 2026
+**Project Start Date:** 20th July, 2026
 
 Project ABRAHAM is Checkamo’s groundbreaking, multimodal AI Trust Advisor, engineered to combat the rising tide of sophisticated scams and fraud in emerging markets. Built on top of Google Gemini and DeepSeek, ABRAHAM acts as an intelligent first line of defense for users engaging in online transactions, peer-to-peer marketplaces, and real estate investments. It proactively analyzes context, identifies subtle red flags, and provides actionable risk assessments before any money changes hands.
 
@@ -49,3 +49,11 @@ The Checkamo platform is built using a modern, scalable, and robust technology s
 - **Authentication:** JWT-based secure authentication.
 - **AI Integration:** Direct integrations with Gemini and DeepSeek APIs for ABRAHAM.
 - **Payment Gateway:** Monnify API for wallets, escrow, and disbursements.
+
+## 👥 Team
+
+Team Members working from Phoenix, AZ, USA, Lagos, Nigeria, and Calabar, Nigeria.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
