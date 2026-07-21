@@ -6,6 +6,8 @@ import Image from 'next/image'
 import { BRAND } from '@/lib/constants'
 import { GradientText } from '@/components/animations/GradientText'
 import { TextType } from '@/components/animations/TextType'
+import LetterGlitch from '@/components/animations/LetterGlitch'
+import BorderGlow from '@/components/animations/BorderGlow'
 
 const VERIFICATION_CATEGORIES = [
   {
@@ -177,17 +179,23 @@ export default function AskAbrahamPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Link href={`${BRAND.appUrl}/dashboard`} className="btn btn-primary text-lg px-8 py-4 shadow-lg shadow-teal-500/25 transition-transform hover:scale-105">
+            <Link href={`${BRAND.appUrl}/dashboard`} className="btn btn-primary btn-specular text-lg px-8 py-4 shadow-lg shadow-teal-500/25 transition-transform hover:scale-105">
               Try ABRAHAM
             </Link>
           </motion.div>
         </div>
       </section>
 
+      {/* ── BACKGROUND GLITCH CONTAINER ── */}
+      <div className="relative z-0">
+        <div className="hidden md:block absolute inset-0 -z-30 pointer-events-none opacity-[0.2]">
+          <LetterGlitch glitchColors={['#04bfbf', '#0388a6', '#025266']} glitchSpeed={60} centerVignette={false} outerVignette={true} smooth={true} characters='01' />
+        </div>
+
       {/* ── WHY ABRAHAM? ── */}
       <section className="section-py relative">
         <div className="container-xl px-6 mx-auto">
-          <div className="glass-3d p-10 md:p-16 rounded-[2.5rem] max-w-5xl mx-auto border border-[var(--border)] shadow-xl relative overflow-hidden">
+          <BorderGlow className="p-10 md:p-16 max-w-5xl mx-auto shadow-xl relative" borderRadius={40} backgroundColor="var(--bg-secondary)" colors={['#04bfbf', '#0388a6', '#025266']} animated={true}>
             <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--c-ocean)]/10 blur-[100px] rounded-full pointer-events-none" />
             
             <div className="relative z-10 max-w-3xl">
@@ -213,7 +221,7 @@ export default function AskAbrahamPage() {
                 <p>Because smarter decisions begin with better information.</p>
               </div>
             </div>
-          </div>
+          </BorderGlow>
         </div>
       </section>
 
@@ -233,8 +241,9 @@ export default function AskAbrahamPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="glass-3d rounded-2xl overflow-hidden flex flex-col border border-[var(--border)] group hover:border-[var(--c-teal)]/30 transition-colors"
+                className="group h-full flex"
               >
+                <BorderGlow className="flex flex-col w-full h-full overflow-hidden" borderRadius={16} backgroundColor="var(--bg-secondary)" colors={['#04bfbf', '#0388a6', '#025266']} animated={false}>
                 <div className="relative h-48 w-full overflow-hidden bg-[var(--bg)]">
                   <Image 
                     src={cat.img}
@@ -257,6 +266,7 @@ export default function AskAbrahamPage() {
                     ))}
                   </ul>
                 </div>
+                </BorderGlow>
               </motion.div>
             ))}
           </div>
@@ -273,8 +283,9 @@ export default function AskAbrahamPage() {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="glass-3d p-8 md:p-12 rounded-3xl border border-[var(--border)] h-full"
+              className="h-full"
             >
+              <BorderGlow className="p-8 md:p-12 h-full" borderRadius={24} backgroundColor="var(--bg-secondary)" colors={['#04bfbf', '#0388a6', '#025266']} animated={true}>
               <h2 className="headline text-3xl mb-6">Upload Almost Anything</h2>
               <p className="text-[var(--text-secondary)] mb-8 text-lg">
                 ABRAHAM works with multiple types of information. Upload or paste what you have, and let AI do the rest.
@@ -296,6 +307,7 @@ export default function AskAbrahamPage() {
                   </div>
                 ))}
               </div>
+              </BorderGlow>
             </motion.div>
 
             {/* Risk Assessment */}
@@ -303,8 +315,9 @@ export default function AskAbrahamPage() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="glass-3d p-8 md:p-12 rounded-3xl border border-[var(--border)] h-full relative overflow-hidden"
+              className="h-full relative"
             >
+              <BorderGlow className="p-8 md:p-12 h-full overflow-hidden" borderRadius={24} backgroundColor="var(--bg-secondary)" colors={['#04bfbf', '#0388a6', '#025266']} animated={true}>
               <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-orange-500/10 to-red-500/10 blur-[80px] pointer-events-none" />
               
               <h2 className="headline text-3xl mb-6">Intelligent Risk Assessment</h2>
@@ -338,6 +351,7 @@ export default function AskAbrahamPage() {
                   <p className="text-sm text-[var(--text-secondary)]">A clear explanation of the factors influencing the assessment and practical next steps you can take before making a decision.</p>
                 </div>
               </div>
+              </BorderGlow>
             </motion.div>
 
           </div>
@@ -370,7 +384,7 @@ export default function AskAbrahamPage() {
       <section className="section-py">
         <div className="container-xl px-6 mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
           
-          <div className="glass-3d p-8 rounded-2xl border border-[var(--border)] col-span-1 md:col-span-2">
+          <BorderGlow className="p-8 col-span-1 md:col-span-2" borderRadius={16} backgroundColor="var(--bg-secondary)" colors={['#04bfbf', '#0388a6', '#025266']} animated={false}>
             <h3 className="text-2xl font-bold mb-4">Built for Individuals & Businesses</h3>
             <div className="flex flex-wrap gap-2 mb-6">
               {['Home buyers', 'Property renters', 'Online shoppers', 'Investors', 'Employers', 'Procurement teams', 'Financial institutions', 'NGOs', 'Startups', 'Small businesses', 'Enterprises'].map(item => (
@@ -380,9 +394,9 @@ export default function AskAbrahamPage() {
             <p className="text-[var(--text-secondary)]">
               Whether you're making a ₦20,000 purchase or a ₦200 million investment, better information leads to better decisions.
             </p>
-          </div>
+          </BorderGlow>
 
-          <div className="glass-3d p-8 rounded-2xl border border-[var(--border)] bg-[rgba(4,191,191,0.03)]">
+          <BorderGlow className="p-8" borderRadius={16} backgroundColor="rgba(4,191,191,0.03)" colors={['#04bfbf', '#0388a6', '#025266']} animated={false}>
             <h3 className="text-2xl font-bold mb-4 text-[var(--c-teal)]">Privacy Comes First</h3>
             <p className="text-[var(--text-secondary)] mb-4">
               Your privacy matters. Information shared with ABRAHAM is handled securely and used only to provide intelligent verification assistance.
@@ -390,7 +404,7 @@ export default function AskAbrahamPage() {
             <p className="text-sm text-[var(--text-tertiary)]">
               For sensitive situations, Checkamo also supports discreet verification services designed to protect your identity and confidentiality.
             </p>
-          </div>
+          </BorderGlow>
 
         </div>
       </section>
@@ -466,7 +480,7 @@ export default function AskAbrahamPage() {
             <h3 className="text-2xl font-bold mb-6">Ready to Verify with Confidence?</h3>
             <p className="mb-8 text-[var(--text-secondary)]">Ask ABRAHAM your first question today and discover a better way to make informed decisions.</p>
             <div className="flex flex-col items-center justify-center">
-              <Link href={`${BRAND.appUrl}/dashboard`} className="btn btn-primary text-lg px-8 py-4 shadow-xl mb-8">
+              <Link href={`${BRAND.appUrl}/dashboard`} className="btn btn-primary btn-specular text-lg px-8 py-4 shadow-xl mb-8">
                 Start with ABRAHAM
               </Link>
               
@@ -489,6 +503,7 @@ export default function AskAbrahamPage() {
         </div>
       </section>
 
+      </div>
     </main>
   )
 }
