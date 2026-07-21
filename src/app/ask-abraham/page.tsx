@@ -179,7 +179,7 @@ export default function AskAbrahamPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Link href={`${BRAND.appUrl}/dashboard`} className="btn btn-primary btn-specular text-lg px-8 py-4 shadow-lg shadow-teal-500/25 transition-transform hover:scale-105">
+            <Link href={`${BRAND.appUrl}/ask-abraham`} className="btn btn-primary btn-specular text-lg px-8 py-4 shadow-lg shadow-teal-500/25 transition-transform hover:scale-105">
               Try ABRAHAM
             </Link>
           </motion.div>
@@ -480,7 +480,7 @@ export default function AskAbrahamPage() {
             <h3 className="text-2xl font-bold mb-6">Ready to Verify with Confidence?</h3>
             <p className="mb-8 text-[var(--text-secondary)]">Ask ABRAHAM your first question today and discover a better way to make informed decisions.</p>
             <div className="flex flex-col items-center justify-center">
-              <Link href={`${BRAND.appUrl}/dashboard`} className="btn btn-primary btn-specular text-lg px-8 py-4 shadow-xl mb-8">
+              <Link href={`${BRAND.appUrl}/ask-abraham`} className="btn btn-primary btn-specular text-lg px-8 py-4 shadow-xl mb-8">
                 Start with ABRAHAM
               </Link>
               
